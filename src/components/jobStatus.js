@@ -1,14 +1,5 @@
-import useSWR from "swr"
-
 // URL of the Steep server
-const API_URL = "http://localhost:8080/workflows"
-
-async function fetcher(...args) {
-  const [url, payload] = args
-
-  const res = await fetch(url+"/"+payload["jobid"])
-  return await res.json()
-}
+const API_URL = "http://localhost:8080"
 
 /**
  * polls the status of a given worflow job
@@ -16,18 +7,18 @@ async function fetcher(...args) {
  * @returns {JSON} job status response of the steep server
  */
 const JobStatus = (payload) => {
-  const { data, error } = useSWR([API_URL, payload], fetcher)
+  const data = payload["statusMsg"]
 
-  // ignore poll if no id is given
-  if (payload["jobid"] === "") return <div></div>
+  // ignore if no id is given (default before interaction)
+  if (payload["jobId"] === "") return <div></div>
 
-  if (error) return <div>failed to load</div>
+  // no response yet
   if (data === undefined) return <div>loading...</div>
 
   return (
     <div>
       <p>Status:</p>
-      <pre id="json">{JSON.stringify(data, null, 2)}</pre>
+      <pre id="json">{JSON.stringify(data.status, null, 2)}</pre>
     </div>
   )
 }

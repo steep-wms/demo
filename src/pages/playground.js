@@ -1,8 +1,12 @@
 import Head from "next/head"
 import styles from "../styles/Home.module.css"
-import { useRef, useState } from "react"
+import EventBus from "vertx3-eventbus-client"
+import { useRef, useState, useEffect } from "react"
 
 import JobStatus from "../components/jobStatus"
+
+// URL of the Steep server
+const API_URL = "http://localhost:8080"
 
 // example workflow
 const jobData = {
@@ -25,6 +29,20 @@ export default function Playground() {
 
   const ref = useRef()
   const [id, setId] = useState("")
+  const [status, setStatus] = useState("")
+
+  let eb = new EventBus(API_URL + "/eventbus")
+  eb.enableReconnect(true)
+  const handler = (error, message) => {
+    // first status always gets set
+    if (id === "") setStatus(message.body)
+    // check if current ids match (e.g. if there are 2 workflows running, only react to the one in id)
+    else if (message.body.submissionId === id) setStatus(message.body)
+  }
+  eb.onopen = function() {
+    // set a handler to receive a message on workflow status changes
+    eb.registerHandler("steep.submissionRegistry.submissionStatusChanged", handler)
+  }
 
   // sends the example workflow on button-click
   const handleClick = async () => {
@@ -67,7 +85,7 @@ export default function Playground() {
 
         <button onClick={handleClick} className="btn btn-primary">Execute the workflow!</button>
         <p ref={ref}></p>
-        <JobStatus jobid={id} />
+        <JobStatus jobId={id} statusMsg={status}/>
       </main>
 
       <footer className={styles.footer}>
@@ -92,7 +110,7 @@ export default function Playground() {
  */
 async function postJSON(data) {
   let response = { error: undefined, data: undefined }
-  await fetch("http://localhost:8080/workflows", {
+  await fetch(API_URL + "/workflows", {
     method: "POST",
     mode: "cors",
     // Steep doesnt accept any headers by default
@@ -115,4 +133,3 @@ async function postJSON(data) {
     })
   return response
 }
-

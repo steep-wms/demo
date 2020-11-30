@@ -1,0 +1,110 @@
+steep:
+  # overrideConfigFile: conf/steep-override.yaml
+  services: conf/services/*.yaml
+  plugins: conf/plugins/*.yaml
+  tmpPath: /tmp
+  outPath: /tmp/steep/out
+
+  cluster:
+    eventBus:
+      # host:
+      # publicHost:
+      port: 41187
+      publicPort: 41187
+    hazelcast:
+      # publicAddress: localhost:5701
+      # port: 5701
+      # interfaces:
+        # - 146.140.35-37.*
+        # - 192.168.*.*
+        # - 192.168.1.3
+      # members:
+        # - 146.140.36.83
+      # tcpEnabled: false
+
+  http:
+    enabled: true
+    host: localhost
+    port: 8080
+    postMaxSize: 10485760  # 10 MB
+    # basePath: /steep
+
+    # Cross-Origin Resource Sharing (CORS)
+    cors:
+      enable: true
+      allowOrigin: https?://localhost(:[0-9]+)?
+      exposeHeaders:
+        - x-page-offset
+        - x-page-size
+        - x-page-total
+      allowMethods:
+        - GET
+        - POST
+        - PUT
+
+  agent:
+    enabled: true
+    instances: 1
+    # id: <uniqueId>
+    # capabilities:
+    outputLinesToCollect: 100
+
+  runtimes:
+    docker:
+      volumes: []
+        # - /data:/data
+
+  controller:
+    lookupIntervalMilliseconds: 2000
+    lookupOrphansIntervalMilliseconds: 300000
+
+  scheduler:
+    enabled: true
+    lookupIntervalMilliseconds: 20000
+
+  db:
+    driver: inmemory
+    # driver: postgresql
+    # driver: mongodb
+    url: jdbc:postgresql://localhost:5432/steep?currentSchema=steep
+    # url: mongodb://localhost:27017/steep
+    username: postgres
+    password: mysecretpassword
+
+  cloud:
+    enabled: false
+    setupsFile: conf/setups.yaml
+    driver: openstack
+    createdByTag: Steep
+    syncIntervalSeconds: 120
+    keepAliveIntervalSeconds: 30
+
+    # agentPool:
+    #   - capabilities:
+    #       - docker
+    #     min: 2
+    #     max: 4
+
+    openstack:
+      endpoint: https://example.com:5000/v3
+      username: myusername
+      password: mysecretpassword
+      domainName: Default
+      projectId: abcdefghijklmopqrstuvwxyz
+      # projectName: myproject
+      networkId: abcdefghijklmopqrstuvwxyz
+      usePublicIp: true
+      keypairName: steep
+      securityGroups:
+        - default
+
+    ssh:
+      username: ubuntu
+      privateKeyLocation: conf/steep.pem
+
+setups:
+  default:
+    docker:
+      image: steep/steep:unstable
+    agent:
+      autoShutdownTimeoutMinutes: 30
