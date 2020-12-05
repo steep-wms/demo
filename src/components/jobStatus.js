@@ -1,10 +1,8 @@
-// URL of the Steep server
-const API_URL = "http://localhost:8080"
 
 /**
- * polls the status of a given worflow job
- * @param {string} payload holds the jobId of a workflow job
- * @returns {JSON} job status response of the steep server
+ * visualizes the status of a given worflow job
+ * @param payload holds the jobId of a workflow job and its corresponding status message
+ * @returns job status response of the steep server
  */
 const JobStatus = (payload) => {
   const data = payload["statusMsg"]

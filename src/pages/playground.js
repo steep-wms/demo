@@ -1,7 +1,8 @@
 import Head from "next/head"
 import styles from "../styles/Home.module.css"
 import EventBus from "vertx3-eventbus-client"
-import { useRef, useState, useEffect } from "react"
+import EventBusContext from "../components/EventBusContext"
+import { useRef, useState, useContext, useEffect } from "react"
 
 import JobStatus from "../components/jobStatus"
 
@@ -31,18 +32,32 @@ export default function Playground() {
   const [id, setId] = useState("")
   const [status, setStatus] = useState("")
 
-  let eb = new EventBus(API_URL + "/eventbus")
-  eb.enableReconnect(true)
-  const handler = (error, message) => {
-    // first status always gets set
-    if (id === "") setStatus(message.body)
-    // check if current ids match (e.g. if there are 2 workflows running, only react to the one in id)
-    else if (message.body.submissionId === id) setStatus(message.body)
-  }
-  eb.onopen = function() {
-    // set a handler to receive a message on workflow status changes
-    eb.registerHandler("steep.submissionRegistry.submissionStatusChanged", handler)
-  }
+  const eb = useContext(EventBusContext)
+
+  useEffect(() => {
+    const registeredHandlers = {}
+
+    if (eb !== undefined) {
+      let address = "steep.submissionRegistry.submissionStatusChanged"
+      let handler = (error, message) => {
+        console.log(message.body)
+        // first status always gets set
+        if (id === "") setStatus(message.body)
+        // check if current ids match (e.g. if there are 2 workflows running, only react to the one in id)
+        else if (message.body.submissionId === id) setStatus(message.body)
+      }
+        eb.registerHandler(address, handler)
+        registeredHandlers[address] = handler
+    }
+
+    return () => {
+      if (eb !== undefined && eb.state === EventBus.OPEN) {
+        for (let address in registeredHandlers) {
+          eb.unregisterHandler(address, registeredHandlers[address])
+        }
+      }
+    }
+  }, [eb, id])
 
   // sends the example workflow on button-click
   const handleClick = async () => {
