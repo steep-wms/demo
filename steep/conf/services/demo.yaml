@@ -1,18 +1,56 @@
-- id: cp
-  name: cp
-  description: Copies files
-  path: cp
+- id: sort
+  name: sort
+  description: Sorts files
+  path: sort
   runtime: other
 
   parameters:
-    - id: no_overwrite
-      name: No overwrite
-      description: Do not overwrite existing file
+    - id: input_file
+      name: Input file name
+      description: Input file name
       type: input
       cardinality: 1..1
-      label: -n
-      data_type: boolean
-      default: false
+      data_type: file
+
+    - id: output_file
+      name: Output file name
+      description: Output file name
+      type: output
+      label: -o
+      cardinality: 1..1
+      data_type: file
+
+- id: gdal_translate
+  name: Gdal Translate
+  description: Converts raster data between different formats
+  path: geodata/gdal
+  runtime: docker
+
+  parameters:
+    - id: gdal_translate
+      name: translate command
+      description: The translate command
+      type: input
+      label: -q
+      cardinality: 1..1
+      data_type: string
+      default: gdal_translate
+
+    - id: format
+      name: output format
+      description: The format of the output file
+      type: input
+      label: -of
+      cardinality: 1..1
+      data_type: string
+
+    - id: creation
+      name: creation option command
+      description: The optional creation option of the output format
+      type: input
+      label: -co
+      cardinality: 1..1
+      data_type: string
 
     - id: input_file
       name: Input file name
@@ -25,48 +63,6 @@
       name: Output file name
       description: Output file name
       type: output
+      label: -o
       cardinality: 1..1
       data_type: file
-
-- id: sleep
-  name: sleep
-  description: sleeps for the given amount of seconds
-  path: sleep
-  runtime: other
-
-  parameters:
-    - id: seconds
-      name: seconds to sleep
-      description: The number of seconds to sleep
-      type: input
-      cardinality: 1..1
-      data_type: integer
-
-- id: docker_hello_world
-  name: Docker hello world
-  description: Runs the hello-world Docker image
-  path: hello-world
-  runtime: docker
-  parameters: []
-
-- id: docker_sleep
-  name: Docker sleep
-  description: Run sleep inside an alpine container
-  path: alpine
-  runtime: docker
-
-  parameters:
-    - id: sleep
-      name: sleep command
-      description: The sleep command
-      type: input
-      cardinality: 1..1
-      data_type: string
-      default: sleep
-
-    - id: seconds
-      name: seconds to sleep
-      description: The number of seconds to sleep
-      type: input
-      cardinality: 1..1
-      data_type: integer
