@@ -5,6 +5,22 @@
   runtime: other
 
   parameters:
+
+    - id: column1
+      name: Column modifier
+      description: Modifiers to specify column sort order
+      type: input
+      label: -n
+      cardinality: 0..1
+      data_type: string
+
+    - id: column2
+      name: Column modifier
+      description: Modifiers to specify column sort order
+      type: input
+      cardinality: 0..1
+      data_type: string
+
     - id: input_file
       name: Input file name
       description: Input file name
@@ -23,7 +39,7 @@
 - id: gdal_translate
   name: Gdal Translate
   description: Converts raster data between different formats
-  path: geodata/gdal
+  path: "geodata/gdal"
   runtime: docker
 
   parameters:
@@ -31,10 +47,10 @@
       name: translate command
       description: The translate command
       type: input
-      label: -q
       cardinality: 1..1
       data_type: string
       default: gdal_translate
+      # label: -q
 
     - id: format
       name: output format
@@ -63,6 +79,5 @@
       name: Output file name
       description: Output file name
       type: output
-      label: -o
       cardinality: 1..1
       data_type: file

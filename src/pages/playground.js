@@ -10,21 +10,22 @@ import JobStatus from "../components/jobStatus"
 const API_URL = "http://localhost:8080"
 
 // example workflow
-const jobData = {
-  api: "4.1.0",
-  vars: [{
-    id: "sleep_seconds",
-    value: 10
-  }],
-  actions: [{
-    type: "execute",
-    service: "sleep",
-    inputs: [{
-      id: "seconds",
-      var: "sleep_seconds"
-     }]
-  }]
-}
+// const jobData = {
+//   api: "4.1.0",
+//   vars: [{
+//     id: "sleep_seconds",
+//     value: 10
+//   }],
+//   actions: [{
+//     type: "execute",
+//     service: "sleep",
+//     inputs: [{
+//       id: "seconds",
+//       var: "sleep_seconds"
+//      }]
+//   }]
+// }
+const jobData = require("../workflow.json")
 
 export default function Playground() {
 

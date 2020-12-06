@@ -46,7 +46,7 @@ steep:
     enabled: true
     instances: 1
     # id: <uniqueId>
-    # capabilities:
+    capabilities: ["docker"]
     outputLinesToCollect: 100
 
   runtimes:

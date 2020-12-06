@@ -1,6 +1,6 @@
-start the Steep webserver, e.g. docker, with (use absolute paths!)
+start the Steep webserver, e.g. docker, with (use absolute paths instead of "./" !)
 docker run --name steep -d --rm -p 8080:8080 \
- -v ./tiles/:data/ \
+ -v ./tiles/:tmp/tiles/:ro \
  -v ./data/:/tmp/ \
  -v ./steep/conf/steep.yaml:/steep/conf/steep.yaml \
  -v ./steep/conf/services/demo.yaml:/steep/conf/services/demo.yaml \

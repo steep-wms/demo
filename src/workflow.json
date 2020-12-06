@@ -1,0 +1,96 @@
+{
+  "api": "4.1.0",
+  "name": "gdal_demo",
+  "vars": [
+    {
+      "id": "col1",
+      "value": "-k2"
+    },
+    {
+      "id": "col2",
+      "value": "-k1"
+    },
+    {
+      "id": "inputfile",
+      "value": "/tmp/tiles/testtile.xyz"
+    },
+    {
+      "id": "sortedfile"
+    },
+    {
+      "id": "outputfile"
+    },
+    {
+      "id": "format",
+      "value": "GTIFF"
+    },
+    {
+      "id": "creation",
+      "value": "\"TILED=YES\""
+    },
+    {
+      "id": "sleep_seconds",
+      "value": 5
+    }
+  ],
+  "actions": [
+    {
+      "type": "execute",
+      "service": "sort",
+      "inputs": [
+        {
+          "id": "column1",
+          "var": "col1"
+        },
+        {
+          "id": "column2",
+          "var": "col2"
+        },
+        {
+          "id": "input_file",
+          "var": "inputfile"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "output_file",
+          "var": "sortedfile"
+        }
+      ]
+    },
+    {
+      "type": "execute",
+      "service": "docker_sleep",
+      "inputs": [
+        {
+          "id": "seconds",
+          "var": "sleep_seconds"
+        }
+      ]
+    },
+    {
+      "type": "execute",
+      "service": "gdal_translate",
+      "inputs": [
+        {
+          "id": "format",
+          "var": "format"
+        },
+        {
+          "id": "creation",
+          "var": "creation"
+        },
+        {
+          "id": "input_file",
+          "var": "sortedfile"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "output_file",
+          "var": "outputfile"
+        }
+      ]
+    }
+  ]
+}
