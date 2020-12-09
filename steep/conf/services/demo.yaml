@@ -35,6 +35,7 @@
       label: -o
       cardinality: 1..1
       data_type: file
+      file_suffix: ".xyz"
 
 - id: gdal_translate
   name: Gdal Translate
@@ -81,3 +82,85 @@
       type: output
       cardinality: 1..1
       data_type: file
+      file_suffix: ".tif"
+
+- id: gdalwarp
+  name: Gdal Warp
+  description: Image reprojection and warping utility
+  path: "geodata/gdal"
+  runtime: docker
+
+  parameters:
+    - id: gdalwarp
+      name: warp command
+      description: The warp command
+      type: input
+      cardinality: 1..1
+      data_type: string
+      default: gdalwarp
+      # label: -q
+
+    - id: t_srs
+      name: target spatial reference
+      description: The target spatial reference
+      type: input
+      label: -t_srs
+      cardinality: 1..1
+      data_type: string
+      default: 
+
+    - id: format
+      name: output format
+      description: The format of the output file
+      type: input
+      label: -of
+      cardinality: 1..1
+      data_type: string
+
+    - id: input_file
+      name: Input file name
+      description: Input file name
+      type: input
+      cardinality: 1..1
+      data_type: file
+
+    - id: output_file
+      name: Output file name
+      description: Output file name
+      type: output
+      cardinality: 1..1
+      data_type: file
+      file_suffix: ".tif"
+
+- id: gdalbuildvrt
+  name: Gdal buildvrt
+  description: Builds a VRT from a list of datasets
+  path: "geodata/gdal"
+  runtime: docker
+
+  parameters:
+    - id: gdalbuildvrt
+      name: gdalbuildvrt command
+      description: The gdalbuildvrt command
+      type: input
+      cardinality: 1..1
+      data_type: string
+      default: gdalbuildvrt
+      # label: -q
+
+    - id: output_file
+      name: Output file name
+      description: Output file name
+      type: output
+      cardinality: 1..1
+      data_type: file
+      file_suffix: ".vrt"
+
+    - id: input_file
+      name: Input file name
+      description: Input file name
+      type: input
+      cardinality: 1..n
+      data_type: directory
+
+

@@ -12,10 +12,16 @@
     },
     {
       "id": "inputfile",
-      "value": "/tmp/tiles/testtile.xyz"
+      "value": "/home/christoph/vcp-steep/demo/data/tiles/testtile.xyz"
     },
     {
-      "id": "sortedfile"
+      "id": "sorted_file"
+    },
+    {
+      "id": "tif_file"
+    },
+    {
+      "id": "transformed_file"
     },
     {
       "id": "outputfile"
@@ -29,8 +35,8 @@
       "value": "\"TILED=YES\""
     },
     {
-      "id": "sleep_seconds",
-      "value": 5
+      "id": "t_srs",
+      "value": "EPSG:4326"
     }
   ],
   "actions": [
@@ -54,17 +60,7 @@
       "outputs": [
         {
           "id": "output_file",
-          "var": "sortedfile"
-        }
-      ]
-    },
-    {
-      "type": "execute",
-      "service": "docker_sleep",
-      "inputs": [
-        {
-          "id": "seconds",
-          "var": "sleep_seconds"
+          "var": "sorted_file"
         }
       ]
     },
@@ -82,13 +78,37 @@
         },
         {
           "id": "input_file",
-          "var": "sortedfile"
+          "var": "sorted_file"
         }
       ],
       "outputs": [
         {
           "id": "output_file",
-          "var": "outputfile"
+          "var": "tif_file"
+        }
+      ]
+    },
+    {
+      "type": "execute",
+      "service": "gdalwarp",
+      "inputs": [
+        {
+          "id": "t_srs",
+          "var": "t_srs"
+        },
+        {
+          "id": "format",
+          "var": "format"
+        },
+        {
+          "id": "input_file",
+          "var": "tif_file"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "output_file",
+          "var": "transformed_file"
         }
       ]
     }
