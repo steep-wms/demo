@@ -1,7 +1,8 @@
 start the Steep webserver, e.g. docker, with (use absolute paths instead of "./" !)
-docker run --name steep -d --rm -p 8080:8080 \
- -v ./tiles/:tmp/tiles/:ro \
- -v ./data/:/tmp/ \
+docker run --name steep -d --rm -p 8080:8080 --user 0 \
+ -v /var/run/docker.sock:/var/run/docker.sock
+ -v /<PATH-TO-TILES>/:/tmp/tiles:ro \
+ -v /tmp/:/tmp/ \
  -v ./steep/conf/steep.yaml:/steep/conf/steep.yaml \
  -v ./steep/conf/services/demo.yaml:/steep/conf/services/demo.yaml \
  -e STEEP_HTTP_HOST=0.0.0.0 steep/steep:5.6.0

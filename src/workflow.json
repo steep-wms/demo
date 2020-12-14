@@ -12,7 +12,7 @@
     },
     {
       "id": "inputfile",
-      "value": "/home/christoph/vcp-steep/demo/data/tiles/testtile.xyz"
+      "value": "/tmp/tiles/testtile.xyz"
     },
     {
       "id": "sorted_file"
@@ -32,11 +32,15 @@
     },
     {
       "id": "creation",
-      "value": "\"TILED=YES\""
+      "value": "'TILED=YES'"
     },
     {
       "id": "t_srs",
       "value": "EPSG:4326"
+    },
+    {
+      "id": "tif_folder*",
+      "value": "/tmp/warpedTIFs/*.tif"
     }
   ],
   "actions": [
@@ -108,7 +112,25 @@
       "outputs": [
         {
           "id": "output_file",
-          "var": "transformed_file"
+          "var": "transformed_file",
+          "store": "false",
+          "prefix": "../warpedTIFs/"
+        }
+      ]
+    },
+    {
+      "type": "execute",
+      "service": "gdalbuildvrt",
+      "outputs": [
+        {
+          "id": "output_file",
+          "var": "outputfile"
+        }
+      ],
+      "inputs": [
+        {
+          "id": "input_folder",
+          "var": "tif_folder*"
         }
       ]
     }

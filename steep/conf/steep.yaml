@@ -2,8 +2,8 @@ steep:
   # overrideConfigFile: conf/steep-override.yaml
   services: conf/services/*.yaml
   plugins: conf/plugins/*.yaml
-  tmpPath: /home/christoph/vcp-steep/demo/data/ #/tmp
-  outPath: /home/christoph/vcp-steep/demo/data/steep/out #/tmp/steep/out
+  tmpPath: /tmp
+  outPath: /tmp/out
 
   cluster:
     eventBus:
