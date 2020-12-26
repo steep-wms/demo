@@ -142,7 +142,7 @@
       type: output
       cardinality: 1..1
       data_type: file
-      file_suffix: ".tif"      
+      file_suffix: ".tif"
 
 - id: gdalbuildvrt
   name: Gdal buildvrt
@@ -174,11 +174,11 @@
       data_type: file
       file_suffix: ".vrt"
 
-    - id: input_folder
-      name: Input folder name
-      description: Input folder name
+    - id: input_file
+      name: Input file name
+      description: Input file name
       type: input
-      cardinality: 1..1
+      cardinality: 1..n
       data_type: string
 
 

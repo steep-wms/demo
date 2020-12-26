@@ -41,7 +41,7 @@ export default function Playground() {
     if (eb !== undefined) {
       let address = "steep.submissionRegistry.submissionStatusChanged"
       let handler = (error, message) => {
-        console.log(message.body)
+        // console.log(message.body)
         // first status always gets set
         if (id === "") setStatus(message.body)
         // check if current ids match (e.g. if there are 2 workflows running, only react to the one in id)

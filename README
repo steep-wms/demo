@@ -5,7 +5,7 @@ docker run --name steep -d --rm -p 8080:8080 --user 0 \
  -v /tmp/:/tmp/ \
  -v ./steep/conf/steep.yaml:/steep/conf/steep.yaml \
  -v ./steep/conf/services/demo.yaml:/steep/conf/services/demo.yaml \
- -e STEEP_HTTP_HOST=0.0.0.0 steep/steep:5.6.0
+ steep/steep:5.6.0
 
 start the webserver in /src with
 npm run dev

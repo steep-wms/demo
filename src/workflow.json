@@ -11,8 +11,16 @@
       "value": "-k1"
     },
     {
-      "id": "inputfile",
-      "value": "/tmp/tiles/testtile.xyz"
+      "id": "inputfiles",
+      "value": [
+        "/tmp/tiles/test/testtile0.xyz", "/tmp/tiles/test/testtile1.xyz"
+        ]
+    },
+    {
+      "id": "inputfile"
+    },
+    {
+      "id": "warpedfiles"
     },
     {
       "id": "sorted_file"
@@ -37,84 +45,87 @@
     {
       "id": "t_srs",
       "value": "EPSG:4326"
-    },
-    {
-      "id": "tif_folder*",
-      "value": "/tmp/warpedTIFs/*.tif"
     }
   ],
   "actions": [
     {
-      "type": "execute",
-      "service": "sort",
-      "inputs": [
+      "type": "for",
+      "input": "inputfiles",
+      "output": "warpedfiles",
+      "enumerator": "inputfile",
+      "yieldToOutput": "transformed_file",
+      "actions": [
         {
-          "id": "column1",
-          "var": "col1"
+          "type": "execute",
+          "service": "sort",
+          "inputs": [
+            {
+              "id": "column1",
+              "var": "col1"
+            },
+            {
+              "id": "column2",
+              "var": "col2"
+            },
+            {
+              "id": "input_file",
+              "var": "inputfile"
+            }
+          ],
+          "outputs": [
+            {
+              "id": "output_file",
+              "var": "sorted_file"
+            }
+          ]
         },
         {
-          "id": "column2",
-          "var": "col2"
+          "type": "execute",
+          "service": "gdal_translate",
+          "inputs": [
+            {
+              "id": "format",
+              "var": "format"
+            },
+            {
+              "id": "creation",
+              "var": "creation"
+            },
+            {
+              "id": "input_file",
+              "var": "sorted_file"
+            }
+          ],
+          "outputs": [
+            {
+              "id": "output_file",
+              "var": "tif_file"
+            }
+          ]
         },
         {
-          "id": "input_file",
-          "var": "inputfile"
-        }
-      ],
-      "outputs": [
-        {
-          "id": "output_file",
-          "var": "sorted_file"
-        }
-      ]
-    },
-    {
-      "type": "execute",
-      "service": "gdal_translate",
-      "inputs": [
-        {
-          "id": "format",
-          "var": "format"
-        },
-        {
-          "id": "creation",
-          "var": "creation"
-        },
-        {
-          "id": "input_file",
-          "var": "sorted_file"
-        }
-      ],
-      "outputs": [
-        {
-          "id": "output_file",
-          "var": "tif_file"
-        }
-      ]
-    },
-    {
-      "type": "execute",
-      "service": "gdalwarp",
-      "inputs": [
-        {
-          "id": "t_srs",
-          "var": "t_srs"
-        },
-        {
-          "id": "format",
-          "var": "format"
-        },
-        {
-          "id": "input_file",
-          "var": "tif_file"
-        }
-      ],
-      "outputs": [
-        {
-          "id": "output_file",
-          "var": "transformed_file",
-          "store": "false",
-          "prefix": "../warpedTIFs/"
+          "type": "execute",
+          "service": "gdalwarp",
+          "inputs": [
+            {
+              "id": "t_srs",
+              "var": "t_srs"
+            },
+            {
+              "id": "format",
+              "var": "format"
+            },
+            {
+              "id": "input_file",
+              "var": "tif_file"
+            }
+          ],
+          "outputs": [
+            {
+              "id": "output_file",
+              "var": "transformed_file"
+            }
+          ]
         }
       ]
     },
@@ -129,8 +140,8 @@
       ],
       "inputs": [
         {
-          "id": "input_folder",
-          "var": "tif_folder*"
+          "id": "input_file",
+          "var": "warpedfiles"
         }
       ]
     }
