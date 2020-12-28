@@ -47,7 +47,7 @@
     - id: cleanup
       name: Cleanup container
       description: Removes container after exit
-      value: '--rm'
+      value: "--rm"
 
   parameters:
     - id: gdal_translate
@@ -100,7 +100,7 @@
     - id: cleanup
       name: Cleanup container
       description: Removes container after exit
-      value: '--rm'
+      value: "--rm"
 
   parameters:
     - id: gdalwarp
@@ -154,7 +154,7 @@
     - id: cleanup
       name: Cleanup container
       description: Removes container after exit
-      value: '--rm'
+      value: "--rm"
 
   parameters:
     - id: gdalbuildvrt
@@ -181,4 +181,60 @@
       cardinality: 1..n
       data_type: string
 
+- id: ctb-tile
+  name: CTB Tile
+  description: Cesium Terrain Builder creates a Quantized-Mesh from a VRT file
+  path: "tumgis/ctb-quantized-mesh"
+  runtime: docker
+
+  runtime_args:
+    - id: cleanup
+      name: Cleanup container
+      description: Removes container after exit
+      value: "--rm"
+    # - id: volume
+    #   name: Volume mount
+    #   description: Mount data directory containing terrain files
+    #   label: "-v"
+    #   value: "/tmp:/data" # may need to be changed depending on Steep working dir !!!
+
+  parameters:
+    - id: ctb-tile
+      name: ctb-tile command
+      description: The ctb-tile command
+      type: input
+      cardinality: 1..1
+      data_type: string
+      default: ctb-tile
+      # label: -q
+
+    - id: format
+      name: output format
+      description: The format of the output file, either "Mesh" or "Terrain"
+      type: input
+      label: -f
+      cardinality: 1..1
+      data_type: string
+
+    - id: extra
+      name: extra modifiers
+      description: Adds extra modifiers
+      type: input
+      cardinality: 0..n
+      data_type: string
+
+    - id: output_dir
+      name: Output directory name
+      description: Output directory name
+      type: output
+      label: -o
+      cardinality: 1..1
+      data_type: directory
+
+    - id: input_file
+      name: Input file name
+      description: Input file name
+      type: input
+      cardinality: 1..1
+      data_type: string
 

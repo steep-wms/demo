@@ -45,6 +45,25 @@
     {
       "id": "t_srs",
       "value": "EPSG:4326"
+    },
+    {
+      "id": "outputdirectory"
+    },
+    {
+      "id": "ctb_format",
+      "value": "Mesh"
+    },
+    {
+      "id": "extra1",
+      "value": "-C"
+    },
+    {
+      "id": "extra2",
+      "value": "-N"
+    },
+    {
+      "id": "extra3",
+      "value": "-l"
     }
   ],
   "actions": [
@@ -142,6 +161,68 @@
         {
           "id": "input_file",
           "var": "warpedfiles"
+        }
+      ]
+    },
+    {
+      "type": "execute",
+      "service": "ctb-tile",
+      "outputs": [
+        {
+          "id": "output_dir",
+          "var": "outputdirectory",
+          "store": true
+        }
+      ],
+      "inputs": [
+        {
+          "id": "format",
+          "var": "ctb_format"
+        },
+        {
+          "id": "extra",
+          "var": "extra1"
+        },
+        {
+          "id": "extra",
+          "var": "extra2"
+        },
+        {
+          "id": "input_file",
+          "var": "outputfile"
+        }
+      ]
+    },
+    {
+      "type": "execute",
+      "service": "ctb-tile",
+      "outputs": [
+        {
+          "id": "output_dir",
+          "var": "outputdirectory",
+          "store": true
+        }
+      ],
+      "inputs": [
+        {
+          "id": "format",
+          "var": "ctb_format"
+        },
+        {
+          "id": "extra",
+          "var": "extra1"
+        },
+        {
+          "id": "extra",
+          "var": "extra2"
+        },
+        {
+          "id": "extra",
+          "var": "extra3"
+        },
+        {
+          "id": "input_file",
+          "var": "outputfile"
         }
       ]
     }
