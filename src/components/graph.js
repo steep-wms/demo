@@ -18,7 +18,8 @@ class App extends React.Component {
     this.variables = []
   }
 
-  scanVars(graph) {
+  // scan JSON for variables and create nodes in the graph (ignores fixed vars like parameters)
+  createVars(graph) {
     this.vars.forEach(element => {
       if (! Object.prototype.hasOwnProperty.call(element, "value")) {
         this.variables.push(element.id)
@@ -28,15 +29,15 @@ class App extends React.Component {
     })
   }
 
-  createNodes(actions, graph) {
+  // create nodes for workflow actions and connect them to in/outputs with edges
+  createActions(actions, graph) {
     actions.forEach(element => {
-      console.log(element)
       let inp = []
       let out = []
 
       // if action is a for loop, unpack its actions
       if (element["type"] === "for") {
-        this.createNodes(element["actions"], graph)
+        this.createActions(element["actions"], graph)
       }
       else {
         // check inputs
@@ -57,19 +58,15 @@ class App extends React.Component {
         }
         // create node
         graph.setNode(element.service, { label: element.service, shape: "diamond" })
-        console.log(element.service)
         // create edges from each input to action
         inp.forEach(i => {
-          console.log(i)
           graph.setEdge(i, element.service)
         })
         // create edges from action to each output
         out.forEach(o => {
-          console.log(o)
           graph.setEdge(element.service, o)
         })
       }
-
     })
     dagre.layout(graph)
   }
@@ -86,8 +83,8 @@ class App extends React.Component {
     g.setDefaultEdgeLabel(function() { return {} })
 
     // create graph
-    this.scanVars(g)
-    this.createNodes(this.actions, g)
+    this.createVars(g)
+    this.createActions(this.actions, g)
 
     // build svg
     let svg = d3.select(this.myRef.current)
