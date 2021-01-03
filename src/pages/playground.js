@@ -100,9 +100,10 @@ export default function Playground() {
         </h1>
 
         <p className={styles.description}>
-        Test the backend connection by sub­mitting a sim­ple work­flow to Steep.
-        The work­flow con­sists of a sin­gle ex­e­cute ac­tion that sleeps for 10 sec­onds and then quits.
+        Test the backend connection by sub­mitting a sim­ple work­flow to Steep. <br/>
+        The work­flow con­sists of the following tasks:
         </p>
+        <GraphViewer />
         <p className={styles.description}>
         Ex­e­cute by clicking the button below:
         </p>
@@ -110,7 +111,6 @@ export default function Playground() {
         <button onClick={handleClick} className="btn btn-primary">Execute the workflow!</button>
         <p ref={ref}></p>
         <JobStatus jobId={id} statusMsg={status}/>
-        <GraphViewer />
       </main>
 
       <footer className={styles.footer}>
