@@ -3,14 +3,14 @@ import * as d3 from "d3"
 
 import * as dagreD3 from "dagre-d3"
 import * as dagre from "dagre"
-import { zoom } from "d3"
 
-const jobData = require("../workflow.json")
+// const jobData = require("../workflow.json")
 
-// https://medium.com/@varvara.munday/d3-in-react-a-step-by-step-tutorial-cba33ce000ce
 class App extends React.Component {
   constructor(props) {
     super(props)
+    // load workflow from props
+    const jobData = props["jobData"]
     this.myRef = React.createRef()
     // read JSON
     this.vars = jobData.vars
@@ -134,17 +134,19 @@ class App extends React.Component {
     let render = new dagreD3.render()
     render(inner, g)
 
-    // Center the graph
-    let xCenterOffset = (svg.attr("width") - g.graph().width) / 2
-    inner.attr("transform", "translate(" + xCenterOffset + ", 0)")
+    // scale & center graph
+    let scale = 0.99 // initial value used as mild padding
+    let maxZoom = 2
+    let graphWidth = inner.node().getBBox().width
+    let graphHeight = inner.node().getBBox().height
+
+    let midX = inner.node().getBBox().x + graphWidth / 2
+    scale = Math.min(scale / Math.max(graphWidth / this.width, graphHeight / this.height), maxZoom)
+    let translate = [this.width / 2 - scale * midX, 0]
+
+    inner.attr("transform", "translate(" + translate + "), scale(" + scale +")")
     // reduce needed height
-    svg.attr("height", g.graph().height)
-    // scale graph
-    let zoomScale = 1
-    let graphWidth = g.graph().width
-    let graphHeight = g.graph().height
-    zoomScale = Math.max( Math.min(this.width / graphWidth, this.height / graphHeight), 0.3)
-    inner.attr("transform", "scale(" + zoomScale +")")
+    svg.attr("height", inner.node().getBoundingClientRect().height)
   }
 
   render() {

@@ -3,19 +3,16 @@ import styles from "../styles/Home.module.css"
 import EventBus from "vertx3-eventbus-client"
 import EventBusContext from "../components/EventBusContext"
 import { useRef, useState, useContext, useEffect } from "react"
-import dynamic from "next/dynamic"
 
 import JobStatus from "../components/jobStatus"
 import CesiumViewer from "../components/cesiumViewer"
 
 import GraphViewer from "../components/graphViewer"
-// const GraphViewer = dynamic(
-//   () => import('../components/graphViewer'),
-//   { ssr: false , loading: () => <p>...generating graph...</p>}
-// )
 
 // URL of the Steep server
 const API_URL = "http://localhost:8080"
+// URL of the Cesium Terrain Server
+const CESIUM_URL = "http://localhost:8888"
 
 // example workflow
 // const jobData = {
@@ -103,7 +100,7 @@ export default function Playground() {
         Test the backend connection by sub­mitting a sim­ple work­flow to Steep. <br/>
         The work­flow con­sists of the following tasks:
         </p>
-        <GraphViewer />
+        <GraphViewer jobData={jobData}/>
         <p className={styles.description}>
         Ex­e­cute by clicking the button below:
         </p>
@@ -111,6 +108,7 @@ export default function Playground() {
         <button onClick={handleClick} className="btn btn-primary">Execute the workflow!</button>
         <p ref={ref}></p>
         <JobStatus jobId={id} statusMsg={status}/>
+        <CesiumViewer url={CESIUM_URL} statusMsg={status}/>
       </main>
 
       <footer className={styles.footer}>
