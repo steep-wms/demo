@@ -19,7 +19,7 @@ const CESIUM_URL = "http://localhost:8888"
 //   api: "4.1.0",
 //   vars: [{
 //     id: "sleep_seconds",
-//     value: 10
+//     value: 5
 //   }],
 //   actions: [{
 //     type: "execute",
@@ -37,6 +37,7 @@ export default function Playground() {
   const ref = useRef()
   const [id, setId] = useState("")
   const [status, setStatus] = useState("")
+  const [chains, setChains] = useState(new Object)
 
   const eb = useContext(EventBusContext)
 
@@ -45,6 +46,9 @@ export default function Playground() {
 
     if (eb !== undefined) {
       let address = "steep.submissionRegistry.submissionStatusChanged"
+      let addressChain = "steep.submissionRegistry.processChainStatusChanged"
+      // processChainProgressChanged for in-chain progress
+      // handles submissions
       let handler = (error, message) => {
         // console.log(message.body)
         // first status always gets set
@@ -52,8 +56,34 @@ export default function Playground() {
         // check if current ids match (e.g. if there are 2 workflows running, only react to the one in id)
         else if (message.body.submissionId === id) setStatus(message.body)
       }
+      // handles process chains
+      let handlerChain = async (error, message) => {
+        console.log(message.body)
+        // check if current ids match (e.g. if there are 2 workflows running, only react to the one in id)
+        if (message.body.submissionId === id) {
+          let chainId = message.body.processChainId
+          // check if chainId is already saved
+          if (Object.prototype.hasOwnProperty.call(chains, chainId)) {
+            // update status
+            let c = JSON.parse(JSON.stringify(chains))
+            c[chainId]["status"] = message.body.status
+            setChains(c)
+          }
+          else {
+            // get associated task of chain
+            let exe = await fetchChainExe(chainId)
+            // save executables and status
+            let c = JSON.parse(JSON.stringify(chains))
+            // TODO: match exe[i].serviceId to graph nodes
+            c[chainId] = { executables: exe, status: message.body.status }
+            setChains(c)
+          }
+        }
+      }
         eb.registerHandler(address, handler)
         registeredHandlers[address] = handler
+        eb.registerHandler(addressChain, handlerChain)
+        registeredHandlers[addressChain] = handlerChain
     }
 
     return () => {
@@ -63,7 +93,7 @@ export default function Playground() {
         }
       }
     }
-  }, [eb, id])
+  }, [eb, id, chains])
 
   // sends the example workflow on button-click
   const handleClick = async () => {
@@ -100,7 +130,7 @@ export default function Playground() {
         Test the backend connection by sub­mitting a sim­ple work­flow to Steep. <br/>
         The work­flow con­sists of the following tasks:
         </p>
-        <GraphViewer jobData={jobData}/>
+        <GraphViewer jobData={jobData} chains={chains} />
         <p className={styles.description}>
         Ex­e­cute by clicking the button below:
         </p>
@@ -155,4 +185,16 @@ async function postJSON(data) {
       return response
     })
   return response
+}
+
+/**
+ * fetches the executables of a processchain with the given id
+ * @param chainId the id of the chain
+ * @returns {JSON} the executables of the chain
+ */
+async function fetchChainExe(chainId) {
+  let data = await fetch(API_URL+"/processchains/"+chainId).then(function(response) {
+    return response.text()
+  })
+  return JSON.parse(data).executables
 }

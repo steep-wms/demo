@@ -4,13 +4,14 @@ import * as d3 from "d3"
 import * as dagreD3 from "dagre-d3"
 import * as dagre from "dagre"
 
-// const jobData = require("../workflow.json")
-
 class App extends React.Component {
   constructor(props) {
     super(props)
     // load workflow from props
     const jobData = props["jobData"]
+    // load workflow chain status
+    // this.chains = props["chains"]
+    this.state = { chains: props["chains"] }
     this.myRef = React.createRef()
     // read JSON
     this.vars = jobData.vars
@@ -19,8 +20,100 @@ class App extends React.Component {
     this.colors = d3.schemePastel2 // color scheme with 8 entries
     this.groupCount = 0
     // svg size
-    this.width = 900
+    this.width = Math.round(0.8*window.innerWidth) // 80% of window size
     this.height = 500
+
+    this.g = new dagreD3.graphlib.Graph({ compound:true }).setGraph({})
+    this.nodes = []
+    this.chainInputs = {}
+  }
+
+  parseChains(chains) {
+    for (let c in chains) {
+      let name = c
+      let executables = chains[c].executables
+      let status = chains[c].status
+      // if already parsed, update status
+      if (Object.prototype.hasOwnProperty.call(this.chainInputs, name)) {
+        this.chainInputs[name].status = status
+      }
+      // create chainInputs dict
+      else {
+        let obj = { status: status }
+        // for each executable (only multiple for chains)
+        for (let i = 0; i < executables.length; i++) {
+          let exe = executables[i]
+          let service = exe.serviceId
+          let inputs = []
+          // check arguments
+          for (let ii = 0; ii < exe.arguments.length; ii++) {
+            let arg = exe.arguments[ii]
+            // only look at inputs
+            if (arg.type === "input") {
+              // ignore service
+              if (arg.id !== exe.serviceId) {
+                let id = arg.variable.id
+                // in loops, id has suffix $iterator e.g. $5 -> strip it
+                let pos$ = id.lastIndexOf("$")
+                if (pos$ !== -1) {
+                  id = id.substring(0, pos$)
+                }
+                // save variable unless its already in
+                if (!inputs.includes(id)) {
+                  inputs.push(id)
+                }
+              }
+            }
+          }
+          // save each service of a chain with its inputs (possible duplicates dont matter since they'd have the same status)
+          obj[service] = inputs
+        }
+        this.chainInputs[name] = obj
+      }
+    }
+  }
+
+  matchNodesToChain(node) {
+    let service = node.service
+    // go through all parsed chains
+    for (const [chainName, obj] of Object.entries(this.chainInputs)) {
+      // check if service is in chain
+      if (Object.prototype.hasOwnProperty.call(obj, service)) {
+        // check if inputs match
+        if (obj[service].length === node.inputs.length) {
+          let counter = 0
+          for (let i = 0; i < node.inputs.length; i++) {
+            if (node.inputs[i].var === obj[service][i]) {
+              counter += 1
+            }
+          }
+          if (counter === node.inputs.length) {
+            return [true, obj.status]
+          }
+        }
+      }
+    }
+    return [false]
+  }
+
+  componentDidUpdate(prevProps) {
+    const chains = this.props["chains"]
+    if(JSON.stringify(chains) !== JSON.stringify(this.state.chains)) {
+        this.setState({ chains: chains })
+
+        this.parseChains(chains)
+        // console.log(this.chainInputs)
+
+        this.nodes.forEach(n => {
+        // console.log("n")
+        // console.log(JSON.parse(n))
+        let [boo, status] = this.matchNodesToChain(JSON.parse(n))
+        if (boo) {
+          d3.select(this.myRef.current).select("svg").selectAll("g")
+            .select("[id='id" + n + "']").attr("class", "node " + status)
+        }
+      })
+    }
   }
 
   // scan JSON for variables and create nodes in the graph (ignores fixed vars like parameters)
@@ -47,9 +140,9 @@ class App extends React.Component {
         // increment groups
         this.groupCount += 1
         // set group name
-        let name = "group" + this.groupCount
+        let name = JSON.stringify(element.actions)//"group" + this.groupCount
         // add cluster for loop
-        graph.setNode(name, { label: "for loop", clusterLabelPos: "top", style: "fill: " + color })
+        graph.setNode(name, { label: "for loop", clusterLabelPos: "top", style: "fill: " + color + ";fill-opacity: 0.5" })
         this.createActions(element["actions"], graph, name)
         // setup input, enumerator, output, yields
         graph.setNode(element.input, { label: element.input, shape: "rect" })
@@ -58,6 +151,7 @@ class App extends React.Component {
         graph.setEdge(element.yieldToOutput, element.output)
 
       }
+      // "normal" nodes
       else {
         // check inputs
         if (Object.prototype.hasOwnProperty.call(element, "inputs")) {
@@ -76,14 +170,16 @@ class App extends React.Component {
           })
         }
         // create node
-        graph.setNode(element.service, { label: element.service, shape: "diamond" })
+        graph.setNode(JSON.stringify(element), { label: element.service, shape: "diamond", id: "id"+JSON.stringify(element), class: "" }) // match class to status CSS fill color (ERROR, SUCCESFUL, RUNNING)
+        // add node id to list
+        this.nodes.push(JSON.stringify(element))
         // assign nodes to cluster
         if (group !== undefined) {
-          graph.setParent(element.service, group)
+          graph.setParent(JSON.stringify(element), group)
         }
         // create edges from each input to action
         inp.forEach(i => {
-          graph.setEdge(i, element.service)
+          graph.setEdge(i, JSON.stringify(element))
           // assign nodes to cluster
           if (group !== undefined) {
             graph.setParent(i, group)
@@ -91,7 +187,7 @@ class App extends React.Component {
         })
         // create edges from action to each output
         out.forEach(o => {
-          graph.setEdge(element.service, o)
+          graph.setEdge(JSON.stringify(element), o)
           // assign nodes to cluster
           if (group !== undefined) {
             graph.setParent(o, group)
@@ -109,7 +205,7 @@ class App extends React.Component {
 
     // convert workflow to graph ########
 
-    let g = new dagreD3.graphlib.Graph({ compound:true }).setGraph({})
+    let g = this.g//new dagreD3.graphlib.Graph({ compound:true }).setGraph({})
     // set graph to Left-to-Right (horizontal) layout
     g.graph().rankDir = "LR"
     g.graph().ranksep = 20

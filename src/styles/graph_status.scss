@@ -1,0 +1,19 @@
+.node { // maybe for REGISTERD ?
+  fill: #a8a8a8;
+  fill-opacity: 0.5
+}
+
+.node.SUCCESS {
+  fill: #7cd992;
+  fill-opacity: 0.5
+}
+
+.node.RUNNING {
+  fill: #f7e463;
+  fill-opacity: 0.5
+}
+
+.node.ERROR {
+  fill: #eb6060;
+  fill-opacity: 0.5
+}
