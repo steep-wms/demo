@@ -1,5 +1,7 @@
+@import "styles/variables";
+
 .node { // maybe for REGISTERD ?
-  fill: #a8a8a8;
+  fill: $gray-500;
   fill-opacity: 0.5
 }
 
@@ -16,4 +18,14 @@
 .node.ERROR {
   fill: #eb6060;
   fill-opacity: 0.5
+}
+
+pre.tooltip {	
+  position: absolute;
+  padding: 2px;
+  font: 12px sans-serif;
+  background: $gray-800;	
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
 }

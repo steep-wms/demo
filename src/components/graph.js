@@ -226,9 +226,33 @@ class App extends React.Component {
 
     // style the graph
     let inner = svg.append("g").attr("fill", "none").style("stroke", "black")
-
     let render = new dagreD3.render()
     render(inner, g)
+    // set tooltip
+    let tooltip = d3.select("body")
+      .append("pre")
+      .attr("position", "absolute")
+      .attr("class", "tooltip")
+      .style("opacity", 0)
+    this.nodes.forEach(n => {
+      inner.selectAll("g").select("[id='id" + n + "']")
+        .on("mouseover", function(d) {
+          tooltip.transition()
+            .duration(250)
+            .style("opacity", .9)
+          })
+        .on("mousemove", function(event, d) {
+          tooltip
+          .html(JSON.stringify(JSON.parse(n), null, 2))
+          .style("left", (event.pageX+5) + "px")
+          .style("top", (event.pageY) + "px")
+        })
+        .on("mouseout", function(d) {
+          tooltip.transition()
+            .duration(500)
+            .style("opacity", 0)
+      })
+    })
 
     // scale & center graph
     let scale = 0.99 // initial value used as mild padding

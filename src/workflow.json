@@ -13,7 +13,39 @@
     {
       "id": "inputfiles",
       "value": [
-        "/tmp/tiles/test/testtile0.xyz", "/tmp/tiles/test/testtile1.xyz"
+        "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32286_5630_2_nw.xyz", "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32286_5632_2_nw.xyz", 
+        "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32288_5626_2_nw.xyz", "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32288_5628_2_nw.xyz", 
+        "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32288_5630_2_nw.xyz", "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32288_5632_2_nw.xyz", 
+        "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32288_5634_2_nw.xyz", "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32288_5636_2_nw.xyz", 
+        "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32290_5622_2_nw.xyz", "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32290_5624_2_nw.xyz", 
+        "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32290_5626_2_nw.xyz", "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32290_5628_2_nw.xyz", 
+        "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32290_5630_2_nw.xyz", "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32290_5632_2_nw.xyz", 
+        "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32290_5634_2_nw.xyz", "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32290_5636_2_nw.xyz", 
+        "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32292_5622_2_nw.xyz", "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32292_5624_2_nw.xyz", 
+        "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32292_5626_2_nw.xyz", "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32292_5628_2_nw.xyz", 
+        "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32292_5630_2_nw.xyz", "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32292_5632_2_nw.xyz", 
+        "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32292_5634_2_nw.xyz", "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32292_5636_2_nw.xyz", 
+        "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32292_5638_2_nw.xyz", "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32294_5622_2_nw.xyz", 
+        "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32294_5624_2_nw.xyz", "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32294_5626_2_nw.xyz", 
+        "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32294_5628_2_nw.xyz", "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32294_5630_2_nw.xyz", 
+        "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32294_5632_2_nw.xyz", "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32294_5634_2_nw.xyz", 
+        "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32296_5618_2_nw.xyz", "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32296_5620_2_nw.xyz", 
+        "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32296_5622_2_nw.xyz", "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32296_5624_2_nw.xyz", 
+        "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32296_5626_2_nw.xyz", "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32296_5628_2_nw.xyz", 
+        "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32296_5630_2_nw.xyz", "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32296_5632_2_nw.xyz", 
+        "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32298_5616_2_nw.xyz", "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32298_5618_2_nw.xyz", 
+        "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32298_5620_2_nw.xyz", "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32298_5622_2_nw.xyz", 
+        "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32298_5624_2_nw.xyz", "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32298_5626_2_nw.xyz", 
+        "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32298_5628_2_nw.xyz", "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32298_5630_2_nw.xyz", 
+        "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32300_5616_2_nw.xyz", "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32300_5618_2_nw.xyz", 
+        "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32300_5620_2_nw.xyz", "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32300_5622_2_nw.xyz", 
+        "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32300_5624_2_nw.xyz", "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32300_5626_2_nw.xyz", 
+        "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32300_5628_2_nw.xyz", "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32300_5630_2_nw.xyz", 
+        "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32300_5632_2_nw.xyz", "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32302_5618_2_nw.xyz", 
+        "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32302_5620_2_nw.xyz", "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32302_5622_2_nw.xyz", 
+        "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32302_5624_2_nw.xyz", "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32302_5626_2_nw.xyz", 
+        "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32302_5628_2_nw.xyz", "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32302_5630_2_nw.xyz", 
+        "/tmp/tiles/dgm1_05334002_Aachen_EPSG4647_XYZ/dgm1_32302_5632_2_nw.xyz"
         ]
     },
     {
@@ -40,7 +72,11 @@
     },
     {
       "id": "creation",
-      "value": "'TILED=YES'"
+      "value": "\"TILED=YES\""
+    },
+    {
+      "id": "s_srs",
+      "value": "EPSG:4647"
     },
     {
       "id": "t_srs",
@@ -54,12 +90,16 @@
       "value": "Mesh"
     },
     {
-      "id": "extra1",
-      "value": "-C"
+      "id": "startzoom",
+      "value": "16"
     },
     {
-      "id": "extra2",
-      "value": "-N"
+      "id": "endzoom",
+      "value": "10"
+    },
+    {
+      "id": "extra1",
+      "value": "-C"
     },
     {
       "id": "extra3",
@@ -131,6 +171,10 @@
               "var": "t_srs"
             },
             {
+              "id": "s_srs",
+              "var": "s_srs"
+            },
+            {
               "id": "format",
               "var": "format"
             },
@@ -180,12 +224,16 @@
           "var": "ctb_format"
         },
         {
-          "id": "extra",
-          "var": "extra1"
+          "id": "start_zoom",
+          "var": "startzoom"
+        },
+        {
+          "id": "end_zoom",
+          "var": "endzoom"
         },
         {
           "id": "extra",
-          "var": "extra2"
+          "var": "extra1"
         },
         {
           "id": "input_file",
@@ -209,12 +257,16 @@
           "var": "ctb_format"
         },
         {
-          "id": "extra",
-          "var": "extra1"
+          "id": "start_zoom",
+          "var": "startzoom"
+        },
+        {
+          "id": "end_zoom",
+          "var": "endzoom"
         },
         {
           "id": "extra",
-          "var": "extra2"
+          "var": "extra1"
         },
         {
           "id": "extra",

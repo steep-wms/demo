@@ -44,7 +44,7 @@ steep:
 
   agent:
     enabled: true
-    instances: 1
+    instances: 2
     # id: <uniqueId>
     capabilities: ["docker"]
     outputLinesToCollect: 100

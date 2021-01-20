@@ -72,7 +72,7 @@
       description: The optional creation option of the output format
       type: input
       label: -co
-      cardinality: 1..1
+      cardinality: 0..1
       data_type: string
 
     - id: input_file
@@ -119,7 +119,14 @@
       label: -t_srs
       cardinality: 1..1
       data_type: string
-      default: 
+
+    - id: s_srs
+      name: source spatial reference
+      description: The source spatial reference
+      type: input
+      label: -s_srs
+      cardinality: 0..1
+      data_type: string
 
     - id: format
       name: output format
@@ -166,6 +173,14 @@
       default: gdalbuildvrt
       # label: -q
 
+    - id: srcnodata
+      name: fasfa
+      description: Input file name
+      type: input
+      cardinality: 0..1
+      data_type: string
+      label: -srcnodata
+
     - id: output_file
       name: Output file name
       description: Output file name
@@ -206,7 +221,6 @@
       cardinality: 1..1
       data_type: string
       default: ctb-tile
-      # label: -q
 
     - id: format
       name: output format
@@ -214,6 +228,22 @@
       type: input
       label: -f
       cardinality: 1..1
+      data_type: string
+
+    - id: start_zoom
+      name: start zoom
+      description: the zoom level to start at. This should be greater than the end zoom level
+      type: input
+      label: -s
+      cardinality: 0..1
+      data_type: string
+
+    - id: end_zoom
+      name: end zoom
+      description: the zoom level to end at. This should be less than the start zoom level and >= 0
+      type: input
+      label: -e
+      cardinality: 0..1
       data_type: string
 
     - id: extra
