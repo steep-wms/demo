@@ -71,10 +71,6 @@
       "value": "GTIFF"
     },
     {
-      "id": "creation",
-      "value": "\"TILED=YES\""
-    },
-    {
       "id": "s_srs",
       "value": "EPSG:4647"
     },
@@ -86,24 +82,12 @@
       "id": "outputdirectory"
     },
     {
-      "id": "ctb_format",
-      "value": "Mesh"
-    },
-    {
-      "id": "startzoom",
+      "id": "maxzoom",
       "value": "16"
     },
     {
-      "id": "endzoom",
+      "id": "minzoom",
       "value": "10"
-    },
-    {
-      "id": "extra1",
-      "value": "-C"
-    },
-    {
-      "id": "extra3",
-      "value": "-l"
     }
   ],
   "actions": [
@@ -147,10 +131,6 @@
               "var": "format"
             },
             {
-              "id": "creation",
-              "var": "creation"
-            },
-            {
               "id": "input_file",
               "var": "sorted_file"
             }
@@ -186,7 +166,8 @@
           "outputs": [
             {
               "id": "output_file",
-              "var": "transformed_file"
+              "var": "transformed_file",
+              "prefix": "tifs/"
             }
           ]
         }
@@ -194,87 +175,31 @@
     },
     {
       "type": "execute",
-      "service": "gdalbuildvrt",
+      "service": "qmconvert",
       "outputs": [
         {
-          "id": "output_file",
-          "var": "outputfile"
+          "id": "output_dir",
+          "var": "outputdirectory",
+          "prefix": "../",
+          "store": true
         }
       ],
       "inputs": [
         {
-          "id": "input_file",
+          "id": "maxZoom",
+          "var": "maxzoom"
+        },
+        {
+          "id": "minZoom",
+          "var": "minzoom"
+        },
+        {
+          "id": "sourceCRS",
+          "var": "t_srs"
+        },
+        {
+          "id": "dataLocation",
           "var": "warpedfiles"
-        }
-      ]
-    },
-    {
-      "type": "execute",
-      "service": "ctb-tile",
-      "outputs": [
-        {
-          "id": "output_dir",
-          "var": "outputdirectory",
-          "store": true
-        }
-      ],
-      "inputs": [
-        {
-          "id": "format",
-          "var": "ctb_format"
-        },
-        {
-          "id": "start_zoom",
-          "var": "startzoom"
-        },
-        {
-          "id": "end_zoom",
-          "var": "endzoom"
-        },
-        {
-          "id": "extra",
-          "var": "extra1"
-        },
-        {
-          "id": "input_file",
-          "var": "outputfile"
-        }
-      ]
-    },
-    {
-      "type": "execute",
-      "service": "ctb-tile",
-      "outputs": [
-        {
-          "id": "output_dir",
-          "var": "outputdirectory",
-          "store": true
-        }
-      ],
-      "inputs": [
-        {
-          "id": "format",
-          "var": "ctb_format"
-        },
-        {
-          "id": "start_zoom",
-          "var": "startzoom"
-        },
-        {
-          "id": "end_zoom",
-          "var": "endzoom"
-        },
-        {
-          "id": "extra",
-          "var": "extra1"
-        },
-        {
-          "id": "extra",
-          "var": "extra3"
-        },
-        {
-          "id": "input_file",
-          "var": "outputfile"
         }
       ]
     }

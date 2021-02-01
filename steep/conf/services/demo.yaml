@@ -110,7 +110,6 @@
       cardinality: 1..1
       data_type: string
       default: gdalwarp
-      # label: -q
 
     - id: t_srs
       name: target spatial reference
@@ -172,14 +171,6 @@
       data_type: string
       default: gdalbuildvrt
       # label: -q
-
-    - id: srcnodata
-      name: fasfa
-      description: Input file name
-      type: input
-      cardinality: 0..1
-      data_type: string
-      label: -srcnodata
 
     - id: output_file
       name: Output file name
@@ -268,3 +259,84 @@
       cardinality: 1..1
       data_type: string
 
+- id: qmconvert
+  name: qmconvert
+  description: Convert singleband geotiffs to quantized mesh tiles for cesium.
+  path: geo-qm-convert #"/bin/triangulate/bin/triangulate"
+  runtime: docker #other
+  
+  runtime_args:
+    - id: cleanup
+      name: Cleanup container
+      description: Removes container after exit
+      value: "--rm"
+
+  parameters:
+    - id: triangulate
+      name: triangulate command
+      description: The triangulate command
+      type: input
+      cardinality: 1..1
+      data_type: string
+      default: triangulate
+
+    - id: dataLocation
+      name: data location
+      description: The location (single file or directory) which contains the .tif files which should be triangulated to terrain data.
+      type: input
+      label: --dataLocation
+      cardinality: 1..1
+      data_type: directory
+
+    - id: sourceCRS
+      name: source CRS
+      description: The coordinate reference system of the source (to be specified when it cannot be infered from the files). Examples EPSG:4326, EPSG:25832.
+      type: input
+      label: --sourceCRS
+      cardinality: 1..1
+      data_type: directory
+      default: "EPSG:4647"
+
+    - id: maxZoom
+      name: start zoom
+      description: the zoom level to start at. This should be greater than the end zoom level
+      type: input
+      label: --maxZoom
+      cardinality: 1..1
+      data_type: string
+      default: 18
+
+    - id: minZoom
+      name: min zoom
+      description: the zoom level to end at. This should be less than the start zoom level and >= 0
+      type: input
+      label: --minZoom
+      cardinality: 1..1
+      data_type: string
+      default: 0
+
+    - id: pointResampleMethod
+      name: point resample method
+      description: The method used to resample the points in the data set for the specified maxZoom level. Either NearestNeighbor or Bilinear.
+      type: input
+      label: --pointResampleMethod
+      cardinality: 1..1
+      data_type: string
+      default: NearestNeighbor
+
+    - id: maxTileSize
+      name: max tile size
+      description: The maximum tilesize used when loading the dataset(s) into the the hadoop rdd.
+      type: input
+      label: --maxTileSize
+      cardinality: 0..1
+      data_type: string
+      default: 256
+
+    - id: output_dir
+      name: Output directory name
+      description: The directory where the terrain file will be created.
+      type: output
+      label: --cesiumTerrainDir
+      cardinality: 1..1
+      data_type: directory

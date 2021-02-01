@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Use correct character set. -->
+  <meta charset="utf-8" />
+  <!-- Tell IE to use the latest, best version. -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Make the application on mobile take up the full browser screen and disable user scaling. -->
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+  <title>Hello World!</title>
+  <script src="/Build/Cesium/Cesium.js"></script>
+  <style>
+    @import url(/Build/Cesium/Widgets/widgets.css);
+
+    html,
+    body,
+    #cesiumContainer {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="cesiumContainer"></div>
+  <script>
+    // My personal Access Token
+    //Cesium.Ion.defaultAccessToken = "";
+
+    // take terrain folder from url (index.html?myterrain&subfolder)
+    var params = location.href.split('?')[1];//.split('&');
+    var folder = params;//[0];
+    // var subfolder = params[1];
+
+    // build url to data (assuming /tmp/out/ is bound to tiles/)
+    var path = "./tiles/" + folder; //+ "/" + subfolder
+
+    // Define Terrain Provider
+    let terrainProvider = new Cesium.CesiumTerrainProvider({
+      url: path // Folder containing layer.json file and terrain-level subfolders with *.terrain-files
+    });
+
+    /***************** Initialize Cesium Viewer  *************************/
+    var viewer = new Cesium.Viewer("cesiumContainer", {
+      terrainProvider: terrainProvider,
+
+    });
+
+    /***************** Define inital position *************************/
+    // The following lines define where the viewer should point to by start up. You can comment this out if not needed
+    // Define initial Position
+    let initialPosition = Cesium.Cartesian3.fromDegrees(5.9641517, 50.7822053, 500);//(6.01967, 50.8016, 500);//(8.679, 49.982, 500); // Coordinates(lon, lat, height) of the City Langen, near Frankfurt
+    let initialOrientation = new Cesium.HeadingPitchRoll.fromDegrees(0, -90, 0.0); // Where to look at y -25.343
+
+    // Apply initial position
+    viewer.scene.camera.setView({
+      destination: initialPosition,
+      orientation: initialOrientation,
+      endTransform: Cesium.Matrix4.IDENTITY
+    });
+
+  </script>
+</body>
+
+</html>

@@ -1,11 +1,5 @@
-start the Steep webserver, e.g. docker, with (use absolute paths instead of "./" !)
-docker run --name steep -d --rm -p 8080:8080 --user 0 \
- -v /var/run/docker.sock:/var/run/docker.sock
- -v /<PATH-TO-TILES>/:/tmp/tiles:ro \
- -v /tmp/:/tmp/ \
- -v ./steep/conf/steep.yaml:/steep/conf/steep.yaml \
- -v ./steep/conf/services/demo.yaml:/steep/conf/services/demo.yaml \
- steep/steep:5.6.0
-
-start the webserver in /src with
-npm run dev
+1. clone this repository
+2. Download CesiumJS from https://cesium.com/downloads/ to /cesium-server (tested with v1.77 https://github.com/CesiumGS/cesium/releases/download/1.77/Cesium-1.77.zip)
+3. add the qm-convert /bin and /lib folders to ../geo-qm-convert
+4. call "docker-compose up -d" from /demo
+5. navigate to localhost:3000

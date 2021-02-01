@@ -1,0 +1,42 @@
+version: '3.3'
+services:
+  geo-qm-convert:
+    build:
+      context: ../geo-qm-convert/
+      dockerfile: Dockerfile
+    image: geo-qm-convert:latest
+    container_name: geo-qm-convert
+    volumes:
+      - /tmp:/data
+  demo-page:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    image: demo-page:latest
+    container_name: demo-page
+    ports:
+      - '3000:3000'
+  cesium-server:
+    build:
+      context: ./cesium-server/
+      dockerfile: Dockerfile
+    image: cesium-server:latest
+    container_name: cesium-server
+    ports:
+      - '8888:8888'
+    # user: 'root'
+    volumes:
+      - '/tmp/out/:/usr/src/tiles/'
+      #- '../Cesium/index.html:/usr/src/index.html' # for dev only
+  steep:
+    container_name: steep
+    image: 'steep/steep:5.6.0'
+    ports:
+      - '8080:8080'
+    user: 'root'
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
+      - './tiles/:/tmp/tiles:ro'
+      - '/tmp/:/tmp/'
+      - './steep/conf/steep.yaml:/steep/conf/steep.yaml'
+      - './steep/conf/services/demo.yaml:/steep/conf/services/demo.yaml'

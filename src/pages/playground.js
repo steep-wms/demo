@@ -38,6 +38,7 @@ export default function Playground() {
   const [id, setId] = useState("")
   const [status, setStatus] = useState("")
   const [chains, setChains] = useState(new Object)
+  // const [result, setResult] = useState([])  // filepath of the resulting terrain folder, containing the quantized mesh: in /tmp/out/[folder, subfolder]
 
   const eb = useContext(EventBusContext)
 
@@ -50,7 +51,6 @@ export default function Playground() {
       // processChainProgressChanged for in-chain progress
       // handles submissions
       let handler = (error, message) => {
-        // console.log(message.body)
         // first status always gets set
         if (id === "") setStatus(message.body)
         // check if current ids match (e.g. if there are 2 workflows running, only react to the one in id)
@@ -58,7 +58,6 @@ export default function Playground() {
       }
       // handles process chains
       let handlerChain = async (error, message) => {
-        console.log(message.body)
         // check if current ids match (e.g. if there are 2 workflows running, only react to the one in id)
         if (message.body.submissionId === id) {
           let chainId = message.body.processChainId
@@ -138,7 +137,7 @@ export default function Playground() {
         <button onClick={handleClick} className="btn btn-primary">Execute the workflow!</button>
         <p ref={ref}></p>
         <JobStatus jobId={id} statusMsg={status}/>
-        <CesiumViewer url={CESIUM_URL} statusMsg={status}/>
+        <CesiumViewer url={CESIUM_URL} folder={id} statusMsg={status}/>
       </main>
 
       <footer className={styles.footer}>
