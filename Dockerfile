@@ -8,15 +8,17 @@ WORKDIR /usr/src
 COPY src/package.json /usr/src
 COPY src/package-lock.json /usr/src
 
-COPY src/components /usr/src/components
-COPY src/pages /usr/src/pages
+# install dependencies
+RUN npm install
+
+# copy pages & components
 COPY src/public /usr/src/public
 COPY src/styles /usr/src/styles
 
-COPY src/workflow.json /usr/src
+COPY src/components /usr/src/components
+COPY src/pages /usr/src/pages
 
-# install dependencies
-RUN npm install
+COPY src/workflow.json /usr/src
 
 # start app
 #RUN npm run build

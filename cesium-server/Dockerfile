@@ -6,12 +6,8 @@ WORKDIR /usr/src
 
 # copy & extract CesiumJS.zip
 ADD Cesium-1.77.zip /usr/src/
-RUN apt update && apt install unzip
-RUN unzip /usr/src/Cesium-1.77.zip
-
-# clean up
-RUN apt remove unzip -y
-RUN rm /usr/src/Cesium-1.77.zip
+RUN apt update && apt install --no-install-recommends unzip
+RUN unzip /usr/src/Cesium-1.77.zip && rm /usr/src/Cesium-1.77.zip && apt remove unzip -y
 
 # install dependencies
 RUN npm install
