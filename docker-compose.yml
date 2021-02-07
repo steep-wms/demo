@@ -39,4 +39,5 @@ services:
       - './tiles/:/tmp/tiles:ro'
       - '/tmp/:/tmp/'
       - './steep/conf/steep.yaml:/steep/conf/steep.yaml'
+      - './steep/conf/plugins/:/steep/conf/plugins/'
       - './steep/conf/services/demo.yaml:/steep/conf/services/demo.yaml'

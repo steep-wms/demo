@@ -67,6 +67,14 @@
       cardinality: 1..1
       data_type: string
 
+    - id: a_srs
+      name: assign output projection command
+      description: Override the projection for the output file. The<srs_def> may be any of the usual GDAL/OGR forms, complete WKT, PROJ.4, EPSG:n or a file containing the WKT. No reprojection is done.
+      type: input
+      label: -a_srs
+      cardinality: 0..1
+      data_type: string
+
     - id: creation
       name: creation option command
       description: The optional creation option of the output format
@@ -293,9 +301,9 @@
       description: The coordinate reference system of the source (to be specified when it cannot be infered from the files). Examples EPSG:4326, EPSG:25832.
       type: input
       label: --sourceCRS
-      cardinality: 1..1
+      cardinality: 0..1
       data_type: directory
-      default: "EPSG:4647"
+      default: "EPSG:4326"
 
     - id: maxZoom
       name: start zoom
