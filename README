@@ -2,4 +2,4 @@
 2. Download CesiumJS from https://cesium.com/downloads/ to /cesium-server (tested with v1.77 https://github.com/CesiumGS/cesium/releases/download/1.77/Cesium-1.77.zip)
 3. add the qm-convert /bin and /lib folders to ../geo-qm-convert
 4. call "docker-compose up -d" from /demo
-5. navigate to localhost:3000
+5. navigate to localhost:3000 (steep at :8080, cesium at :8888)
