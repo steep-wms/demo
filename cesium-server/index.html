@@ -32,13 +32,11 @@
     // My personal Access Token
     //Cesium.Ion.defaultAccessToken = "";
 
-    // take terrain folder from url (index.html?myterrain&subfolder)
-    var params = location.href.split('?')[1];//.split('&');
-    var folder = params;//[0];
-    // var subfolder = params[1];
+    // take terrain folder from url (index.html?myterrainfolder)
+    var folder = location.href.split('?')[1];
 
     // build url to data (assuming /tmp/out/ is bound to tiles/)
-    var path = "./tiles/" + folder; //+ "/" + subfolder
+    var path = "./tiles/" + folder;
 
     // Define Terrain Provider
     let terrainProvider = new Cesium.CesiumTerrainProvider({

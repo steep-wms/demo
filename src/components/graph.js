@@ -116,14 +116,13 @@ class App extends React.Component {
     }
   }
 
-  // scan JSON for variables and create nodes in the graph (ignores fixed vars like parameters)
+  // scan JSON for variables and create nodes in the graph
   createVars(graph) {
     this.vars.forEach(element => {
-      if (! Object.prototype.hasOwnProperty.call(element, "value")) {
-        this.variables.push(element.id)
-        // create node
-        graph.setNode(element.id, { label: element.id, shape: "ellipse" })
-      }
+      // use (! Object.prototype.hasOwnProperty.call(element, "value")) to filter out fixed parameters
+      this.variables.push(element.id)
+      // create node
+      graph.setNode(element.id, { label: element.id, shape: "ellipse" })
     })
   }
 
@@ -142,7 +141,7 @@ class App extends React.Component {
         // set group name
         let name = JSON.stringify(element.actions)//"group" + this.groupCount
         // add cluster for loop
-        graph.setNode(name, { label: "for loop", clusterLabelPos: "top", style: "fill: " + color + ";fill-opacity: 0.5" })
+        graph.setNode(name, { label: "for-each action", clusterLabelPos: "top", style: "fill: " + color + ";fill-opacity: 0.5" })
         this.createActions(element["actions"], graph, name)
         // setup input, enumerator, output, yields
         graph.setNode(element.input, { label: element.input, shape: "rect" })
