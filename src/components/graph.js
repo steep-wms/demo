@@ -119,10 +119,19 @@ class App extends React.Component {
   // scan JSON for variables and create nodes in the graph
   createVars(graph) {
     this.vars.forEach(element => {
-      // use (! Object.prototype.hasOwnProperty.call(element, "value")) to filter out fixed parameters
-      this.variables.push(element.id)
-      // create node
-      graph.setNode(element.id, { label: element.id, shape: "ellipse" })
+      // filter out fixed parameters
+      if (! Object.prototype.hasOwnProperty.call(element, "value")) {
+        this.variables.push(element.id)
+        // create node
+        graph.setNode(element.id, { label: element.id, shape: "ellipse" })
+      }
+      else {
+        this.variables.push(element.id)
+        // assemble html text for node label
+        let text = element.id+" =<br/>"+element.value
+        // create node
+        graph.setNode(element.id, { label: text, labelType: "html", shape: "circle", labelStyle: "font-weight: 1000; text-align: center;" })
+      }
     })
   }
 
@@ -198,13 +207,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    // d3.select(this.myRef.current)
-    //   .append("p")
-    //   .text("Hello from D3")
-
-    // convert workflow to graph ########
-
-    let g = this.g//new dagreD3.graphlib.Graph({ compound:true }).setGraph({})
+    let g = this.g
     // set graph to Left-to-Right (horizontal) layout
     g.graph().rankDir = "LR"
     g.graph().ranksep = 20
@@ -233,6 +236,7 @@ class App extends React.Component {
       .attr("position", "absolute")
       .attr("class", "tooltip")
       .style("opacity", 0)
+    // nodes tooltips
     this.nodes.forEach(n => {
       inner.selectAll("g").select("[id='id" + n + "']")
         .on("mouseover", function(d) {
@@ -252,6 +256,7 @@ class App extends React.Component {
             .style("opacity", 0)
       })
     })
+    // TODO: set onClick events for variables
 
     // scale & center graph
     let scale = 0.99 // initial value used as mild padding
