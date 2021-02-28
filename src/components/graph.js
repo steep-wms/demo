@@ -7,6 +7,8 @@ import * as dagre from "dagre"
 class App extends React.Component {
   constructor(props) {
     super(props)
+    // callback for clicked Nodes
+    this.callback = props["callback"]
     // load workflow from props
     const jobData = props["jobData"]
     // load workflow chain status
@@ -123,14 +125,14 @@ class App extends React.Component {
       if (! Object.prototype.hasOwnProperty.call(element, "value")) {
         this.variables.push(element.id)
         // create node
-        graph.setNode(element.id, { label: element.id, shape: "ellipse" })
+        graph.setNode(element.id, { label: element.id, shape: "ellipse", id: element.id })
       }
       else {
         this.variables.push(element.id)
         // assemble html text for node label
         let text = element.id+" =<br/>"+element.value
         // create node
-        graph.setNode(element.id, { label: text, labelType: "html", shape: "circle", labelStyle: "font-weight: 1000; text-align: center;" })
+        graph.setNode(element.id, { label: text, labelType: "html", shape: "circle", labelStyle: "font-weight: 1000; text-align: center; font-size:0.9em" })
       }
     })
   }
@@ -153,8 +155,8 @@ class App extends React.Component {
         graph.setNode(name, { label: "for-each action", clusterLabelPos: "top", style: "fill: " + color + ";fill-opacity: 0.5" })
         this.createActions(element["actions"], graph, name)
         // setup input, enumerator, output, yields
-        graph.setNode(element.input, { label: element.input, shape: "rect" })
-        graph.setNode(element.output, { label: element.output, shape: "rect" })
+        graph.setNode(element.input, { label: element.input, shape: "rect", id: element.input })
+        graph.setNode(element.output, { label: element.output, shape: "rect", id: element.output })
         graph.setEdge(element.input, element.enumerator)
         graph.setEdge(element.yieldToOutput, element.output)
 
@@ -212,6 +214,7 @@ class App extends React.Component {
     g.graph().rankDir = "LR"
     g.graph().ranksep = 20
     g.graph().edgesep = 10
+    // g.graph().align = "DR"
 
     // Default to assigning a new object as a label for each new edge.
     g.setDefaultEdgeLabel(function() { return {} })
@@ -240,6 +243,7 @@ class App extends React.Component {
     this.nodes.forEach(n => {
       inner.selectAll("g").select("[id='id" + n + "']")
         .on("mouseover", function(d) {
+          d3.select(this).style("cursor", "pointer")
           tooltip.transition()
             .duration(250)
             .style("opacity", .9)
@@ -256,7 +260,22 @@ class App extends React.Component {
             .style("opacity", 0)
       })
     })
-    // TODO: set onClick events for variables
+    // this is that and that is this hook
+    let that = this
+    // show info about intermediate results onClick
+    let vars_to_inspect = ["inputfile", "sorted_file", "tif_file", "transformed_file", "outputdirectory"]
+    let gs = inner.selectAll("g")
+    vars_to_inspect.forEach(v => {
+      gs.select("[id='" + v + "']")
+      .on("mouseover", function(d) {
+          d3.select(this).style("cursor", "pointer")
+        })
+      .on("click", function(d) {
+        // alert(v)
+        // replace with callback to set textbox in index.html
+        that.callback(v)
+        })
+    })
 
     // scale & center graph
     let scale = 0.99 // initial value used as mild padding

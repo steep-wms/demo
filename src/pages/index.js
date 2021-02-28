@@ -5,6 +5,7 @@ import EventBusContext from "../components/EventBusContext"
 import { useRef, useState, useContext, useEffect } from "react"
 
 import JobStatus from "../components/jobStatus"
+import InfoCards from "../components/infoCards"
 import CesiumViewer from "../components/cesiumViewer"
 import GraphViewer from "../components/graphViewer"
 
@@ -37,6 +38,7 @@ export default function Playground() {
   const [id, setId] = useState("")
   const [status, setStatus] = useState("")
   const [chains, setChains] = useState(new Object)
+  const [clickedNode, setClickedNode] = useState("inputfile")
 
   const eb = useContext(EventBusContext)
 
@@ -98,7 +100,7 @@ export default function Playground() {
     const { data, error } = await postJSON(jobData)
     // reply is positive
     if (data !== undefined) {
-      let status = "Workflow "+data.status+" with ID "+data.id
+      let status = "Workflow " + data.status + " with ID " + data.id
       ref.current.innerHTML = status
       // send JobId to jobStatus component
       setId(data.id)
@@ -124,15 +126,22 @@ export default function Playground() {
         </h1>
 
         <p className={styles.description}>
-        Test the backend connection by sub­mitting a sim­ple work­flow to Steep. <br/>
-        The work­flow con­sists of the following tasks:
+          Check out the Steep Workflow Management in action by sub­mitting a sim­ple work­flow. <br/>
+          In this example, we will apply different actions to visualize 3D terrain data. <br/>
+          A visualization of the work­flow can be seen below:
         </p>
-        <GraphViewer jobData={jobData} chains={chains} />
+        <GraphViewer jobData={jobData} chains={chains} callback={(node) => setClickedNode(node)} />
         <p className={styles.description}>
-        Ex­e­cute by clicking the button below:
+          We start with a <a href="https://www.opengeodata.nrw.de/produkte/geobasis/hm/dgm1_xyz/dgm1_xyz_paketiert/">Digital Terrain Model</a>&nbsp;
+           containing 3D points in a textbased format. <br/>
         </p>
 
-        <button onClick={handleClick} className="btn btn-primary">Execute the workflow!</button>
+        <InfoCards selection={clickedNode} callback={(node) => setClickedNode(node)} />
+
+        <div className="btns">
+          <p onClick={handleClick} className="btn btn-primary">Execute the workflow!</p>
+        </div>
+
         <p ref={ref}></p>
         <JobStatus jobId={id} statusMsg={status}/>
         <CesiumViewer url={CESIUM_URL} folder={id} statusMsg={status}/>
