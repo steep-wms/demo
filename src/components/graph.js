@@ -11,9 +11,8 @@ class App extends React.Component {
     this.callback = props["callback"]
     // load workflow from props
     const jobData = props["jobData"]
-    // load workflow chain status
-    // this.chains = props["chains"]
-    this.state = { chains: props["chains"] }
+    // load workflow chain status && name of the active node in infoCards
+    this.state = { chains: props["chains"], activeNode: props["selection"] }
     this.myRef = React.createRef()
     // read JSON
     this.vars = jobData.vars
@@ -115,6 +114,18 @@ class App extends React.Component {
             .select("[id='id" + n + "']").attr("class", "node " + status)
         }
       })
+    }
+    // highlights active node from infoCards
+    const activeNode = this.props["selection"]
+    if (activeNode !== this.state.activeNode) {
+      this.setState({ activeNode: activeNode })
+
+      d3.select(this.myRef.current).select("svg").selectAll("g")
+        // remove all filters
+        .style("filter", null)
+        // add only to active node
+        .select("[id='" + activeNode + "']")
+        .style("filter", "url(#glow)")
     }
   }
 
@@ -271,8 +282,6 @@ class App extends React.Component {
           d3.select(this).style("cursor", "pointer")
         })
       .on("click", function(d) {
-        // alert(v)
-        // replace with callback to set textbox in index.html
         that.callback(v)
         })
     })
@@ -290,6 +299,28 @@ class App extends React.Component {
     inner.attr("transform", "translate(" + translate + "), scale(" + scale +")")
     // reduce needed height
     svg.attr("height", inner.node().getBoundingClientRect().height)
+
+    // glow filter based on https://www.visualcinnamon.com/2016/06/glow-filter-d3-visualization/
+    //Container for the gradients
+    let defs = svg.append("defs")
+
+    //Filter for the outside glow
+    let filter = defs.append("filter")
+      .attr("id", "glow")
+    filter.append("feGaussianBlur")
+      .attr("in", "SourceGraphic")
+      .attr("stdDeviation", "2")
+      .attr("result", "coloredBlur")
+    filter.append("feMorphology")
+      .attr("in", "coloredBlur")
+      .attr("operator", "dilate")
+      .attr("radius", "2")
+      .attr("result", "coloredBlur")
+    let feMerge = filter.append("feMerge")
+    feMerge.append("feMergeNode")
+      .attr("in", "coloredBlur")
+    feMerge.append("feMergeNode")
+      .attr("in", "SourceGraphic")
   }
 
   render() {

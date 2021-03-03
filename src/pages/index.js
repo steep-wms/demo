@@ -130,7 +130,9 @@ export default function Playground() {
           In this example, we will apply different actions to visualize 3D terrain data. <br/>
           A visualization of the work­flow can be seen below:
         </p>
-        <GraphViewer jobData={jobData} chains={chains} callback={(node) => setClickedNode(node)} />
+
+        <GraphViewer jobData={jobData} chains={chains} selection={clickedNode} callback={(node) => setClickedNode(node)} />
+
         <p className={styles.description}>
           We start with a <a href="https://www.opengeodata.nrw.de/produkte/geobasis/hm/dgm1_xyz/dgm1_xyz_paketiert/">Digital Terrain Model</a>&nbsp;
            containing 3D points in a textbased format. <br/>
