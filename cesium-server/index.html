@@ -43,9 +43,15 @@
       url: path // Folder containing layer.json file and terrain-level subfolders with *.terrain-files
     });
 
+    // Define Imagery Provider
+    let imageryProvider = new Cesium.ArcGisMapServerImageryProvider({
+      url : "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer"
+    });
+
     /***************** Initialize Cesium Viewer  *************************/
     var viewer = new Cesium.Viewer("cesiumContainer", {
       terrainProvider: terrainProvider,
+      imageryProvider: imageryProvider,
 
     });
 
