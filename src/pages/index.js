@@ -58,31 +58,26 @@ export default function Playground() {
       }
       // handles process chains
       let handlerChain = async (error, message) => {
-        // check if current ids match (e.g. if there are 2 workflows running, only react to the one in id)
         if (message.body.submissionId === id) {
           let chainId = message.body.processChainId
-          // check if chainId is already saved
-          if (Object.prototype.hasOwnProperty.call(chains, chainId)) {
-            // update status
-            let c = JSON.parse(JSON.stringify(chains))
-            c[chainId]["status"] = message.body.status
-            setChains(c)
-          }
-          else {
-            // get associated task of chain
-            let exe = await fetchChainExe(chainId)
-            // save executables and status
-            let c = JSON.parse(JSON.stringify(chains))
-            // TODO: match exe[i].serviceId to graph nodes
-            c[chainId] = { executables: exe, status: message.body.status }
-            setChains(c)
-          }
+          setChains( (prevState, props) => {
+            let c = JSON.parse(JSON.stringify(prevState))
+            if (Object.prototype.hasOwnProperty.call(prevState, chainId)) {
+              c[chainId]["status"] = message.body.status
+              return c
+            }
+            else {
+              let exe = fetchChainExe(chainId)
+              c[chainId] = { executables: exe, status: message.body.status }
+              return c
+            }
+          })
         }
       }
-        eb.registerHandler(address, handler)
-        registeredHandlers[address] = handler
-        eb.registerHandler(addressChain, handlerChain)
-        registeredHandlers[addressChain] = handlerChain
+      eb.registerHandler(address, handler)
+      registeredHandlers[address] = handler
+      eb.registerHandler(addressChain, handlerChain)
+      registeredHandlers[addressChain] = handlerChain
     }
 
     return () => {
@@ -92,7 +87,7 @@ export default function Playground() {
         }
       }
     }
-  }, [eb, id, chains])
+  }, [eb, id])
 
   // sends the example workflow on button-click
   const handleClick = async () => {

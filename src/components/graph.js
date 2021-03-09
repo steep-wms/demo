@@ -29,10 +29,10 @@ class App extends React.Component {
     this.chainInputs = {}
   }
 
-  parseChains(chains) {
+  async parseChains(chains) {
     for (let c in chains) {
       let name = c
-      let executables = chains[c].executables
+      let executables = await chains[c].executables
       let status = chains[c].status
       // if already parsed, update status
       if (Object.prototype.hasOwnProperty.call(this.chainInputs, name)) {
@@ -76,6 +76,7 @@ class App extends React.Component {
 
   matchNodesToChain(node) {
     let service = node.service
+    let foundStatus = null
     // go through all parsed chains
     for (const [chainName, obj] of Object.entries(this.chainInputs)) {
       // check if service is in chain
@@ -89,25 +90,31 @@ class App extends React.Component {
             }
           }
           if (counter === node.inputs.length) {
-            return [true, obj.status]
+            // if there is at least one running task for that node, keep the status
+            if (obj.status === "RUNNING") {
+              return [true, obj.status]
+            }
+            else {
+              foundStatus = obj.status
+            }
           }
         }
       }
     }
+    if (foundStatus !== null) {
+      return [true, foundStatus]
+    }
     return [false]
   }
 
-  componentDidUpdate(prevProps) {
+  async componentDidUpdate(prevProps) {
     const chains = this.props["chains"]
-    if(JSON.stringify(chains) !== JSON.stringify(this.state.chains)) {
-        this.setState({ chains: chains })
+    if (JSON.stringify(chains) !== JSON.stringify(this.state.chains)) {
+      this.setState({ chains: chains })
 
-        this.parseChains(chains)
-        // console.log(this.chainInputs)
+      await this.parseChains(chains)
 
-        this.nodes.forEach(n => {
-        // console.log("n")
-        // console.log(JSON.parse(n))
+      this.nodes.forEach(n => {
         let [boo, status] = this.matchNodesToChain(JSON.parse(n))
         if (boo) {
           d3.select(this.myRef.current).select("svg").selectAll("g")
