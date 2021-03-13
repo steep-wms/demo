@@ -1,6 +1,8 @@
 import React from "react"
 
-import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col, Container } from "reactstrap"
+import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, CardImg, Row, Col, Container } from "reactstrap"
+
+import CesiumViewer from "../components/cesiumViewer"
 
 /**
  * visualizes the status of a given worflow job
@@ -105,6 +107,7 @@ const InfoCards = (payload) => {
             <Col>
             <Card body>
                 <CardTitle>Special Title Treatment</CardTitle>
+                <CesiumViewer url={payload.url} folder={payload.folder} statusMsg={payload.statusMsg}/>
                 <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
                 <Button>Go somewhere</Button>
               </Card>

@@ -6,7 +6,6 @@ import { useRef, useState, useContext, useEffect } from "react"
 
 import JobStatus from "../components/jobStatus"
 import InfoCards from "../components/infoCards"
-import CesiumViewer from "../components/cesiumViewer"
 import GraphViewer from "../components/graphViewer"
 
 // URL of the Steep server
@@ -119,21 +118,43 @@ export default function Playground() {
         <h1 className={styles.title}>
           Welcome to the <a href="https://steep-wms.github.io/">Steep</a> Playground!
         </h1>
+        <br/>
 
         <p className={styles.description}>
           Check out the Steep Workflow Management in action by sub­mitting a sim­ple work­flow. <br/>
           In this example, we will apply different actions to visualize 3D terrain data. <br/>
+          <br/>
           A visualization of the work­flow can be seen below:
         </p>
 
         <GraphViewer jobData={jobData} chains={chains} selection={clickedNode} callback={(node) => setClickedNode(node)} />
+        <br/>
+
+        <ul>
+          <li>
+            Diamond-shapes represent the microservices that are called to modify data. <br/>
+            Hovering over them shows you their respective JSON workflow model.
+          </li>
+          <li>
+            Circles show the assignment of fixed inputs needed by the <a href="https://steep-wms.github.io/#execute-actions">execute actions</a>.
+          </li>
+          <li>
+            Ellipses hold the names of dynamic variables that contain the <a href="https://steep-wms.github.io/#parameters">in- and outputs</a> during the execution. <br/>
+            Clicking them will show more details below.
+          </li>
+          <li>
+            Rectangles: Nodes grouped by a colored rectangle symbolize a <a href="https://steep-wms.github.io/#for-each-actions">for-each action</a>. <br/>
+            The smaller rectangle before the group holds a list of items, for which the actions inside are repeated. <br/>
+            Individual outputs are then joined in the variable after the for-each group.
+          </li>
+        </ul>
 
         <p className={styles.description}>
           We start with a <a href="https://www.opengeodata.nrw.de/produkte/geobasis/hm/dgm1_xyz/dgm1_xyz_paketiert/">Digital Terrain Model</a>&nbsp;
            containing 3D points in a textbased format. <br/>
         </p>
 
-        <InfoCards selection={clickedNode} callback={(node) => setClickedNode(node)} />
+        <InfoCards selection={clickedNode} callback={(node) => setClickedNode(node)} url={CESIUM_URL} folder={id} statusMsg={status} />
 
         <div className="btns">
           <p onClick={handleClick} className="btn btn-primary">Execute the workflow!</p>
@@ -141,7 +162,6 @@ export default function Playground() {
 
         <p ref={ref}></p>
         <JobStatus jobId={id} statusMsg={status}/>
-        <CesiumViewer url={CESIUM_URL} folder={id} statusMsg={status}/>
       </main>
 
       <footer className={styles.footer}>

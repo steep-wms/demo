@@ -17,14 +17,14 @@ const CesiumViewer = (payload) => {
     let path = url + "/index.html" + "?" + folder//[0] + "&" + folder[1]
     return(
       <div>
-        <iframe src={path} height="600" width="800" ></iframe>
+        <iframe src={path} width="100%" ></iframe>
       </div>
     )
   }
 
-  // return nothing while waiting for workflow
+  // return example screenshot while waiting for workflow to finish
   return(
-    <div></div>
+    <img src="/images/cesium.png" alt="Screenshot of the resulting 3D terrain" width="100%" />
   )
 }
 
