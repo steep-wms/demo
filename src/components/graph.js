@@ -268,7 +268,9 @@ class App extends React.Component {
           })
         .on("mousemove", function(event, d) {
           tooltip
-          .html(JSON.stringify(JSON.parse(n), null, 2))
+          .html(function(e) {
+            return "<pre id=json>" + JSON.stringify(JSON.parse(n), null, 2) + "</pre>"
+          })
           .style("left", (event.pageX+5) + "px")
           .style("top", (event.pageY) + "px")
         })
