@@ -1,6 +1,6 @@
 import React from "react"
 
-import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, CardImg, Row, Col, Container } from "reactstrap"
+import { TabContent, TabPane, Nav, NavItem, NavLink, Card, CardTitle, CardText, Row, Col, Container } from "reactstrap"
 
 import CesiumViewer from "../components/cesiumViewer"
 
@@ -67,7 +67,8 @@ const InfoCards = (payload) => {
             <Col>
               <Card body>
                 <CardTitle>Special Title Treatment</CardTitle>
-                <CardText>With supporting text below as a naturalsdfdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd lead-in to additional content.</CardText>
+                <img src="/images/xyz_file.png" alt="Screenshot of the resulting 3D terrain" width="100%" />
+                <CardText>xyz coord, 4 mil points</CardText>
               </Card>
             </Col>
           </Row>
@@ -77,7 +78,15 @@ const InfoCards = (payload) => {
             <Col>
               <Card body>
                 <CardTitle>Special Title Treatment</CardTitle>
-                <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
+                <Row>
+                  <Col xs={{ size: 5, offset: 0 }}>
+                    <img src="/images/inputfile.png" alt="Screenshot of the resulting 3D terrain" width="100%" />
+                  </Col>
+                  <Col xs={{ size: 5, offset: 2 }}>
+                    <img src="/images/sorted_file.png" alt="Screenshot of the resulting 3D terrain" width="100%" />
+                  </Col>
+                </Row>
+                <CardText>left org x-col first, right sorted y-col first</CardText>
               </Card>
             </Col>
           </Row>
@@ -87,6 +96,7 @@ const InfoCards = (payload) => {
             <Col>
             <Card body>
                 <CardTitle>Special Title Treatment</CardTitle>
+                <img src="/images/tif_file.png" alt="Screenshot of the resulting 3D terrain" width="100%" />
                 <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
               </Card>
             </Col>
@@ -97,6 +107,7 @@ const InfoCards = (payload) => {
             <Col>
             <Card body>
                 <CardTitle>Special Title Treatment</CardTitle>
+                <img src="/images/transformed_file.png" alt="Screenshot of the resulting 3D terrain" width="100%" />
                 <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
               </Card>
             </Col>
@@ -109,7 +120,6 @@ const InfoCards = (payload) => {
                 <CardTitle>Special Title Treatment</CardTitle>
                 <CesiumViewer url={payload.url} folder={payload.folder} statusMsg={payload.statusMsg}/>
                 <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                <Button>Go somewhere</Button>
               </Card>
             </Col>
           </Row>
