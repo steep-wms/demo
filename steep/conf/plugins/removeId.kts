@@ -3,9 +3,6 @@ import model.processchain.Executable
 import model.processchain.ProcessChain
 
 fun needsProcessing(e: Executable): Boolean {
-  if (e.id == "qmconvert") {
-    print(e)
-  }
   return e.id == "qmconvert"
 }
 
