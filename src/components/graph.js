@@ -81,11 +81,13 @@ class App extends React.Component {
     for (const [chainName, obj] of Object.entries(this.chainInputs)) {
       // check if service is in chain
       if (Object.prototype.hasOwnProperty.call(obj, service)) {
-        // check if inputs match
+        // check if input length match
         if (obj[service].length === node.inputs.length) {
           let counter = 0
+          // check if all inputs match (allow different order, so sort before)
+          let obj_services = obj[service].sort()
           for (let i = 0; i < node.inputs.length; i++) {
-            if (node.inputs[i].var === obj[service][i]) {
+            if (obj_services.includes(node.inputs[i].var)) {
               counter += 1
             }
           }
@@ -107,10 +109,10 @@ class App extends React.Component {
     return [false]
   }
 
-  async componentDidUpdate(prevProps) {
+  async componentDidUpdate(prevProps, prevState) {
     const chains = this.props["chains"]
     if (JSON.stringify(chains) !== JSON.stringify(this.state.chains)) {
-      this.setState({ chains: chains })
+      this.setState( () => {return { chains: chains }})
 
       await this.parseChains(chains)
 

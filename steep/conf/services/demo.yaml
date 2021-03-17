@@ -328,9 +328,8 @@
       description: The method used to resample the points in the data set for the specified maxZoom level. Either NearestNeighbor or Bilinear.
       type: input
       label: --pointResampleMethod
-      cardinality: 1..1
+      cardinality: 0..1
       data_type: string
-      default: NearestNeighbor
 
     - id: maxTileSize
       name: max tile size

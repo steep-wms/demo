@@ -53,11 +53,15 @@
     },
     {
       "id": "maxzoom",
-      "value": "16"
+      "value": "14"
     },
     {
       "id": "minzoom",
       "value": "10"
+    },
+    {
+      "id": "operation",
+      "value": "triangulate"
     }
   ],
   "actions": [
@@ -146,14 +150,11 @@
     {
       "type": "execute",
       "service": "qmconvert",
-      "outputs": [
-        {
-          "id": "output_dir",
-          "var": "outputdirectory",
-          "store": true
-        }
-      ],
       "inputs": [
+        {
+          "id": "triangulate",
+          "var": "operation"
+        },
         {
           "id": "maxZoom",
           "var": "maxzoom"
@@ -169,6 +170,13 @@
         {
           "id": "dataLocation",
           "var": "warpedfiles"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "output_dir",
+          "var": "outputdirectory",
+          "store": true
         }
       ]
     }
