@@ -16,9 +16,7 @@ const CesiumViewer = (payload) => {
   if (data.status === "SUCCESS"){
     let path = url + "/index.html" + "?" + folder//[0] + "&" + folder[1]
     return(
-      <div>
-        <iframe src={path} width="100%" ></iframe>
-      </div>
+      <iframe src={path} width="100%" height="600px"></iframe>
     )
   }
 
