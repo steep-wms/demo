@@ -22,7 +22,7 @@ class App extends React.Component {
     this.groupCount = 0
     // svg size
     this.width = Math.round(0.8*window.innerWidth) // 80% of window size
-    this.height = 500
+    this.height = (this.width / 3.236) + 100
 
     this.g = new dagreD3.graphlib.Graph({ compound:true }).setGraph({})
     this.nodes = []
@@ -246,8 +246,9 @@ class App extends React.Component {
     // build svg
     let svg = d3.select(this.myRef.current)
                 .append("svg")
-                .attr("width", this.width)
-                .attr("height", this.height)
+                .attr("width", "100%")
+                // .attr("height", "100%")
+                // .attr("viewBox", "0 0 " + this.width + " " + this.height)
 
     // style the graph
     let inner = svg.append("g").attr("fill", "none").style("stroke", "black")
@@ -299,7 +300,7 @@ class App extends React.Component {
 
     // scale & center graph
     let scale = 0.99 // initial value used as mild padding
-    let maxZoom = 2
+    let maxZoom = 1.5
     let graphWidth = inner.node().getBBox().width
     let graphHeight = inner.node().getBBox().height
 

@@ -4,9 +4,12 @@ import EventBus from "vertx3-eventbus-client"
 import EventBusContext from "../components/EventBusContext"
 import { useRef, useState, useContext, useEffect } from "react"
 
+import { Row, Col, Container } from "reactstrap"
+
 import JobStatus from "../components/jobStatus"
 import InfoCards from "../components/infoCards"
 import GraphViewer from "../components/graphViewer"
+import GraphDescription from "../components/graphDescription"
 
 // URL of the Steep server
 const API_URL = "http://localhost:8080"
@@ -127,27 +130,15 @@ export default function Playground() {
           A visualization of the work­flow can be seen below:
         </p>
 
-        <GraphViewer jobData={jobData} chains={chains} selection={clickedNode} callback={(node) => setClickedNode(node)} />
+        <Row>
+          <Col xs={{ size: 9, offset: 0 }}>
+            <GraphViewer jobData={jobData} chains={chains} selection={clickedNode} callback={(node) => setClickedNode(node)} />
+          </Col>
+          <Col xs={{ size: 3, offset: 0 }} style={{ alignSelf: "center" }} >
+            <GraphDescription />
+          </Col>
+        </Row>
         <br/>
-
-        <ul>
-          <li>
-            Diamond-shapes represent the microservices that are called to modify data. <br/>
-            Hovering over them shows you their respective JSON workflow model.
-          </li>
-          <li>
-            Circles show the assignment of fixed inputs needed by the <a href="https://steep-wms.github.io/#execute-actions">execute actions</a>.
-          </li>
-          <li>
-            Ellipses hold the names of dynamic variables that contain the <a href="https://steep-wms.github.io/#parameters">in- and outputs</a> during the execution. <br/>
-            Clicking them will show more details below.
-          </li>
-          <li>
-            Rectangles: Nodes grouped by a colored rectangle symbolize a <a href="https://steep-wms.github.io/#for-each-actions">for-each action</a>. <br/>
-            The smaller rectangle before the group holds a list of items, for which the actions inside are repeated. <br/>
-            Individual outputs are then joined in the variable after the for-each group.
-          </li>
-        </ul>
 
         <p className={styles.description}>
           We start with a <a href="https://www.opengeodata.nrw.de/produkte/geobasis/hm/dgm1_xyz/dgm1_xyz_paketiert/">Digital Terrain Model</a>&nbsp;
