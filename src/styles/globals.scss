@@ -19,7 +19,7 @@ body {
 }
 
 .container {
-  width: 70vw;
+  width: 70vw;  
 }
 
 html {
@@ -83,6 +83,15 @@ a {
   }
 }
 
+.spinner {
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 img {
   vertical-align: middle;
 }
@@ -103,6 +112,11 @@ svg {
 
 .container-smaller {
   max-width: 900px;
+}
+
+.container-larger {
+  width: 99vw !important;
+  max-width: 99vw !important;
 }
 
 .main-content p {

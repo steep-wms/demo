@@ -1,3 +1,6 @@
+import styles from "../styles/Home.module.css"
+import { Loader, ExternalLink, XOctagon, CheckSquare } from "react-feather"
+const API_URL = "http://localhost:8080"
 
 /**
  * visualizes the status of a given worflow job
@@ -7,17 +10,44 @@
 const JobStatus = (payload) => {
   const data = payload["statusMsg"]
 
-  // ignore if no id is given (default before interaction)
-  if (payload["jobId"] === "") return <div></div>
+  let url = API_URL
+  let icon = <ExternalLink className="feather" />
 
-  // no response yet
-  if (data === undefined) return <div>loading...</div>
+  // if no id is given (default before interaction)
+  if (payload["jobId"] === "") {
+    url = API_URL
+    icon = <ExternalLink className="feather" />
+  }
+
+  // if workflow is running
+  if (data.status === "RUNNING") {
+    url = API_URL + "/workflows/" + payload["jobId"]
+    icon = <Loader className="spinner feather" />
+  }
+
+  // if workflow failed
+  if (data.status === "ERROR") {
+    url = API_URL + "/workflows/" + payload["jobId"]
+    icon = <XOctagon className="feather" />
+  }
+
+  // if workflow completed
+  if (data.status === "SUCCESS") {
+    url = API_URL + "/workflows/" + payload["jobId"]
+    icon = <CheckSquare className="feather" />
+  }
 
   return (
-    <div>
-      <p>Status:</p>
-      <pre id="json">{JSON.stringify(data.status, null, 2)}</pre>
-    </div>
+    <a
+    className="btn"
+    href={url}
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    {icon}
+    {" "} Check the backend {" "}
+    <img src="/images/steep-logo.svg" className={styles.logo}/>
+  </a>
   )
 }
 

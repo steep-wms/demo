@@ -6,6 +6,8 @@ import { useRef, useState, useContext, useEffect } from "react"
 
 import { Row, Col, Container } from "reactstrap"
 
+import { Send } from "react-feather"
+
 import JobStatus from "../components/jobStatus"
 import InfoCards from "../components/infoCards"
 import GraphViewer from "../components/graphViewer"
@@ -130,6 +132,7 @@ export default function Playground() {
           A visualization of the work­flow can be seen below:
         </p>
 
+        <Container className="container-larger">
         <Row>
           <Col xs={{ size: 9, offset: 0 }}>
             <GraphViewer jobData={jobData} chains={chains} selection={clickedNode} callback={(node) => setClickedNode(node)} />
@@ -138,7 +141,13 @@ export default function Playground() {
             <GraphDescription />
           </Col>
         </Row>
+        </Container>
         <br/>
+
+        <div className="btns">
+          <p onClick={handleClick} className="btn btn-primary"><Send className="feather" />{" "} Execute the workflow!</p>
+          <JobStatus jobId={id} statusMsg={status} />
+        </div>
 
         <p className={styles.description}>
           We start with a <a href="https://www.opengeodata.nrw.de/produkte/geobasis/hm/dgm1_xyz/dgm1_xyz_paketiert/">Digital Terrain Model</a>&nbsp;
@@ -147,12 +156,7 @@ export default function Playground() {
 
         <InfoCards selection={clickedNode} callback={(node) => setClickedNode(node)} url={CESIUM_URL} folder={id} statusMsg={status} />
 
-        <div className="btns">
-          <p onClick={handleClick} className="btn btn-primary">Execute the workflow!</p>
-        </div>
-
         <p ref={ref}></p>
-        <JobStatus jobId={id} statusMsg={status}/>
       </main>
 
       <footer className={styles.footer}>
