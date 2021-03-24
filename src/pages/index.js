@@ -38,7 +38,6 @@ const jobData = require("../workflow.json")
 
 export default function Playground() {
 
-  const ref = useRef()
   const [id, setId] = useState("")
   const [status, setStatus] = useState("")
   const [chains, setChains] = useState(new Object)
@@ -99,14 +98,11 @@ export default function Playground() {
     const { data, error } = await postJSON(jobData)
     // reply is positive
     if (data !== undefined) {
-      let status = "Workflow " + data.status + " with ID " + data.id
-      ref.current.innerHTML = status
       // send JobId to jobStatus component
       setId(data.id)
     }
     // bad reply
     else {
-      ref.current.innerHTML = error
       // clear old id
       setId("")
     }
@@ -126,10 +122,10 @@ export default function Playground() {
         <br/>
 
         <p className={styles.description}>
-          Check out the Steep Workflow Management in action by sub­mitting a sim­ple work­flow. <br/>
+          Check out the Steep Workflow Management in action by sub­mitting a realistic work­flow. <br/>
           In this example, we will apply different actions to visualize 3D terrain data. <br/>
           <br/>
-          A visualization of the work­flow can be seen below:
+          A schematic of the work­flow can be seen below:
         </p>
 
         <Container className="container-larger">
@@ -149,14 +145,13 @@ export default function Playground() {
           <JobStatus jobId={id} statusMsg={status} />
         </div>
 
-        <p className={styles.description}>
-          We start with a <a href="https://www.opengeodata.nrw.de/produkte/geobasis/hm/dgm1_xyz/dgm1_xyz_paketiert/">Digital Terrain Model</a>&nbsp;
-           containing 3D points in a textbased format. <br/>
+        <p className={styles.description + " container"}>
+          Execute the workflow and check the backend to see <a href="https://steep-wms.github.io/">Steep</a> in action.<br/>
+          Inspect the graph and the information below for details about intermediate results and a live demo, once the workflow finished.
         </p>
-
+        <br/>
         <InfoCards selection={clickedNode} callback={(node) => setClickedNode(node)} url={CESIUM_URL} folder={id} statusMsg={status} />
 
-        <p ref={ref}></p>
       </main>
 
       <footer className={styles.footer}>
