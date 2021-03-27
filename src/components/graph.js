@@ -18,7 +18,7 @@ class App extends React.Component {
     this.vars = jobData.vars
     this.actions = jobData.actions
     this.variables = []
-    this.colors = d3.schemePastel2 // color scheme with 8 entries
+    this.colors = d3.schemePastel2 // color scheme with 8 entries for for-each action groups
     this.groupCount = 0
     // svg size
     this.width = Math.round(0.8*window.innerWidth) // 80% of window size
@@ -29,6 +29,7 @@ class App extends React.Component {
     this.chainInputs = {}
   }
 
+  // parse status messages for relevant updates
   async parseChains(chains) {
     for (let c in chains) {
       let name = c
@@ -74,6 +75,7 @@ class App extends React.Component {
     }
   }
 
+  // find available status in chain of a node
   matchNodesToChain(node) {
     let service = node.service
     let foundStatus = null
@@ -109,13 +111,16 @@ class App extends React.Component {
     return [false]
   }
 
+  // update status and selection of nodes
   async componentDidUpdate(prevProps, prevState) {
     const chains = this.props["chains"]
+    // if differences in chain detected
     if (JSON.stringify(chains) !== JSON.stringify(this.state.chains)) {
       this.setState( () => {return { chains: chains }})
 
       await this.parseChains(chains)
 
+      // update status
       this.nodes.forEach(n => {
         let [boo, status] = this.matchNodesToChain(JSON.parse(n))
         if (boo) {
@@ -147,6 +152,7 @@ class App extends React.Component {
         // create node
         graph.setNode(element.id, { label: element.id, shape: "ellipse", id: element.id })
       }
+      // fixed parameters
       else {
         this.variables.push(element.id)
         // assemble html text for node label
@@ -163,7 +169,7 @@ class App extends React.Component {
       let inp = []
       let out = []
 
-      // if action is a for loop, unpack its actions
+      // if action is a for-each loop, unpack its actions
       if (element["type"] === "for") {
         // select color (repeats after 8 groups)
         let color = this.colors[this.groupCount % 8]
@@ -234,7 +240,6 @@ class App extends React.Component {
     g.graph().rankDir = "LR"
     g.graph().ranksep = 20
     g.graph().edgesep = 10
-    // g.graph().align = "DR"
 
     // Default to assigning a new object as a label for each new edge.
     g.setDefaultEdgeLabel(function() { return {} })
@@ -247,8 +252,6 @@ class App extends React.Component {
     let svg = d3.select(this.myRef.current)
                 .append("svg")
                 .attr("width", "100%")
-                // .attr("height", "100%")
-                // .attr("viewBox", "0 0 " + this.width + " " + this.height)
 
     // style the graph
     let inner = svg.append("g").attr("fill", "none").style("stroke", "black")
@@ -260,7 +263,7 @@ class App extends React.Component {
       .attr("position", "absolute")
       .attr("class", "tooltip")
       .style("opacity", 0)
-    // nodes tooltips
+    // tooltips on action nodes
     this.nodes.forEach(n => {
       inner.selectAll("g").select("[id='id" + n + "']")
         .on("mouseover", function(d) {

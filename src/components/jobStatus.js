@@ -1,14 +1,14 @@
 import styles from "../styles/Home.module.css"
 import { Loader, ExternalLink, XOctagon, CheckSquare } from "react-feather"
-const API_URL = "http://localhost:8080"
 
 /**
- * visualizes the status of a given worflow job
- * @param payload holds the jobId of a workflow job and its corresponding status message
- * @returns job status response of the steep server
+ * visualizes the status of a given worflow job in a button to the backend
+ * @param payload holds the jobId of a workflow job and its corresponding status message and the URL of the Steep Sever
+ * @returns a button/link to the workflow in the steep server
  */
 const JobStatus = (payload) => {
   const data = payload["statusMsg"]
+  const API_URL = payload["url"]
 
   let url = API_URL
   let icon = <ExternalLink className="feather" />

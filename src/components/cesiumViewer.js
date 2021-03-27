@@ -1,20 +1,17 @@
-// import Cesium from 'cesium/Cesium'
+/**
+ * Cesium Terrain Server Iframe
+ * @param {*} payload holds the url to the Cesium server, the status of the workflow, and the workflow id/folder with resulting quantized mesh
+ * @returns an iframe of the Cesium visualization or a screenshot of it while running
+ */
 const CesiumViewer = (payload) => {
   const data = payload["statusMsg"]
   const url = payload["url"]
   const folder = payload["folder"]
-  // const Cesium = require('cesium/Cesium')
-  // const data = payload["statusMsg"]
-
-  // const terrain = require("/tmp/out/tilesets/terrain/test/")
-  // let viewer = new Cesium.Viewer("cesiumContainer")
-
-  // no response yet
-  if (data === undefined) return <div></div>
 
   // wait for successful finish of workflow
   if (data.status === "SUCCESS"){
-    let path = url + "/index.html" + "?" + folder//[0] + "&" + folder[1]
+    // assemble path to let Cesium server know which files to serve
+    let path = url + "/index.html" + "?" + folder
     return(
       <iframe src={path} width="100%" height="600px"></iframe>
     )

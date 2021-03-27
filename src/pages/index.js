@@ -2,7 +2,7 @@ import Head from "next/head"
 import styles from "../styles/Home.module.css"
 import EventBus from "vertx3-eventbus-client"
 import EventBusContext from "../components/EventBusContext"
-import { useRef, useState, useContext, useEffect } from "react"
+import { useState, useContext, useEffect } from "react"
 
 import { Row, Col, Container } from "reactstrap"
 
@@ -18,22 +18,6 @@ const API_URL = "http://localhost:8080"
 // URL of the Cesium Terrain Server
 const CESIUM_URL = "http://localhost:8888"
 
-// example workflow
-// const jobData = {
-//   api: "4.1.0",
-//   vars: [{
-//     id: "sleep_seconds",
-//     value: 5
-//   }],
-//   actions: [{
-//     type: "execute",
-//     service: "sleep",
-//     inputs: [{
-//       id: "seconds",
-//       var: "sleep_seconds"
-//      }]
-//   }]
-// }
 const jobData = require("../workflow.json")
 
 export default function Playground() {
@@ -45,13 +29,14 @@ export default function Playground() {
 
   const eb = useContext(EventBusContext)
 
+  // handle eventbus messages from Steep Server
   useEffect(() => {
     const registeredHandlers = {}
 
     if (eb !== undefined) {
       let address = "steep.submissionRegistry.submissionStatusChanged"
       let addressChain = "steep.submissionRegistry.processChainStatusChanged"
-      // processChainProgressChanged for in-chain progress
+
       // handles submissions
       let handler = (error, message) => {
         // first status always gets set
@@ -92,7 +77,7 @@ export default function Playground() {
     }
   }, [eb, id])
 
-  // sends the example workflow on button-click
+  // sends the workflow on button-click
   const handleClick = async () => {
     // send JSON fetch request and wait for reply
     const { data, error } = await postJSON(jobData)
@@ -142,7 +127,7 @@ export default function Playground() {
 
         <div className="btns">
           <p onClick={handleClick} className="btn btn-primary"><Send className="feather" />{" "} Execute the workflow!</p>
-          <JobStatus jobId={id} statusMsg={status} />
+          <JobStatus url={API_URL} jobId={id} statusMsg={status} />
         </div>
 
         <p className={styles.description + " container"}>

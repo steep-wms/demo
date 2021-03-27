@@ -5,16 +5,13 @@ import { TabContent, TabPane, Nav, NavItem, NavLink, Card, CardTitle, CardText, 
 import CesiumViewer from "../components/cesiumViewer"
 
 /**
- * visualizes the status of a given worflow job
- * @param payload holds the jobId of a workflow job and its corresponding status message
- * @returns job status response of the steep server
+ * Displays information of workflow partial results
+ * @param payload the selected tab and a callback to highlight nodes in graph
+ * @returns div with TabPane + Cards of information
  */
 const InfoCards = (payload) => {
   const activeTab = payload["selection"]
   const toggle = payload["callback"]
-
-  // no response yet
-  // if (data === undefined) return <div>loading...</div>
 
   return (
     <div>
