@@ -39,10 +39,8 @@ export default function Playground() {
 
       // handles submissions
       let handler = (error, message) => {
-        // first status always gets set
-        if (id === "") setStatus(message.body)
         // check if current ids match (e.g. if there are 2 workflows running, only react to the one in id)
-        else if (message.body.submissionId === id) setStatus(message.body)
+        if (message.body.submissionId === id) setStatus(message.body)
       }
       // handles process chains
       let handlerChain = async (error, message) => {
