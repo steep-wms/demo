@@ -127,8 +127,8 @@ const InfoCards = (payload) => {
                 <CardText>
                   The inital EPSG:4647 coordinate reference system of our input data is a projected coordinate system, meaning it has been flattened akin to a paper map.<br/>
                   For our goal of a true 3D globe visualization, we need to warp the points into another coordinate system, the World Geodetic System 1984, WGS:84, also called EPSG:4326.<br/>
-                  Using <a href="https://gdal.org/programs/gdalwarp.html">gdalwarp</a>, our inputs are reprojected to fit the curvature of the planet. 
-                  In this example, missing data is left zero (notice the blue border and the changed scale of the legend in the image).
+                  Using <a href="https://gdal.org/programs/gdalwarp.html">gdalwarp</a>, our inputs are reprojected to fit the curvature of the planet.
+                  In this example, missing data is left as zero height (notice the blue border and the changed scale of the legend in the image).
                 </CardText>
               </Card>
             </Col>
@@ -147,7 +147,7 @@ const InfoCards = (payload) => {
                   Supplied from a server, this allows for more terrain features being loaded the farther one zoomed in.<br/>
                   In turn, a distant viewport needs less detail, further decreasing transfer and computation overhead compared to the millions of points from the start of the workflow.<br/>
                   <br/>
-                  Once the workflow execution finished, the above image will be replaced by a live view of the resulting 3D visualization. Feel free to explore!
+                  Once the workflow execution is finished, the above image will be replaced by a live view of the resulting 3D visualization. Feel free to explore!
                 </CardText>
               </Card>
             </Col>
